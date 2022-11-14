@@ -57,20 +57,20 @@ lastmod = ["lastmod", ":git", "date"]
   name = "Support"
   weight = 20
 
-[[menu.main]]
-  url = "documentation"
-  name = "Documentation"
-  weight = 25
+# [[menu.main]]
+#   url = "documentation"
+#   name = "Documentation"
+#   weight = 25
 
-[[menu.main]]
-  url = "examples"
-  name = "Examples"
-  weight = 30
+# [[menu.main]]
+#   url = "examples"
+#   name = "Examples"
+#   weight = 30
 
-[[menu.main]]
-  url = "gallery"
-  name = "Gallery"
-  weight = 40
+# [[menu.main]]
+#   url = "gallery"
+#   name = "Gallery"
+#   weight = 40
 
 [[menu.main]]
   url = "contact"
@@ -103,27 +103,27 @@ lastmod = ["lastmod", ":git", "date"]
   weight = 40
 
 [[menu.copyright_footer]]
-  url = "https://projects.eclipse.org/projects/ecd.glsp"
+  url = "https://eclipsesource.com/about/company/"
   name = "About"
   weight = 5
 
 [[menu.copyright_footer]]
-  url = "https://www.eclipse.org/legal/privacy.php"
+  url = "https://eclipsesource.com/privacy/"
   name = "Privacy Policy"
   weight = 10
 
 [[menu.copyright_footer]]
-  url = "https://www.eclipse.org/legal/termsofuse.php"
+  url = "https://eclipsesource.com/terms-of-use/"
   name = "Terms of Use"
   weight = 20
 
-[[menu.copyright_footer]]
-  url = "https://www.eclipse.org/legal/copyright.php"
-  name = "Copyright"
-  weight = 30
+# [[menu.copyright_footer]]
+#   url = "https://www.eclipse.org/legal/copyright.php"
+#   name = "Copyright"
+#   weight = 30
 
 [[menu.copyright_footer]]
-  url = "https://www.eclipse.org/legal/"
+  url = "https://eclipsesource.com/imprint/"
   name = "Legal"
   weight = 40
 
@@ -131,7 +131,7 @@ lastmod = ["lastmod", ":git", "date"]
   weight = 20
   name = "twitter"
   pre = "fab fa-twitter"
-  url = "https://twitter.com/"
+  url = "https://twitter.com/eclipsesource"
 
 [[menu.footer_social]]
   weight = 30
