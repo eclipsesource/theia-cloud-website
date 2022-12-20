@@ -17,7 +17,12 @@ case "$(uname -m)" in
         ARCH=arm64
         ;;
     *)
-        ARCH=amd64
+		if [ "${VERSION}" = "latest" ]
+		then
+			ARCH=amd64
+		else
+			ARCH=64bit
+		fi
         ;;
 esac
 
