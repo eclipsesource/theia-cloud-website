@@ -30,11 +30,6 @@ HUGO_VERSION = "0.78.1"
 HUGO_ENABLEGITINFO = "true"
 
 [[headers]]
-  for = "/fonts/*.woff2"
+  for = "/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
-    Content-Type = "application/font-woff"
-  for = "/fonts/*.ttf"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Content-Type = "application/font-ttf"
