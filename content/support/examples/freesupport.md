@@ -10,3 +10,5 @@ weight = 10
 [Public channel](https://github.com/eclipsesource/theia-cloud/discussions)\
 Basic topics only\
 Longer response time
+
+Free
