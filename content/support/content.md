@@ -7,7 +7,7 @@ background = "white"
 +++
 
 <p style="text-align: center;">
-Support for Theia.cloud and for projects adopting Theia.cloud is provided by
+Support for Theia Cloud and for projects adopting Theia Cloud is provided by
 </p>
 
 <img src="../images/eslogo.png" alt="EclipseSource Logo" width="600" style="display: block; margin: auto;" />

@@ -5,12 +5,12 @@ weight = 2000
 menu_title = "Related Projects"
 
 [asset]
-  title = "Theia.cloud"
+  title = "Theia Cloud"
   image = "logo.png"
-  text = "Theia.cloud"
+  text = "Theia Cloud"
   url = "#"
 +++
 
-#### Theia.cloud
+#### Theia Cloud
 
-Theia.cloud is an open source project led by [EclipseSource](https://www.eclipsesource.com).
+Theia Cloud is an open source project led by [EclipseSource](https://www.eclipsesource.com).

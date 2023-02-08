@@ -1,6 +1,6 @@
 baseURL = 'https://theia-cloud.io/'
 languageCode = 'en-us'
-title = 'Theia.cloud - running Theia-based products in the cloud'
+title = 'Theia Cloud - running Theia-based products in the cloud'
 theme = "syna"
 
 [outputs]
@@ -15,7 +15,7 @@ lastmod = ["lastmod", ":git", "date"]
 
 [params]
   name = "EclipseSource"
-  description = "Theia.cloud"
+  description = "Theia Cloud"
 
   [params.style]
     #background = "secondary"
