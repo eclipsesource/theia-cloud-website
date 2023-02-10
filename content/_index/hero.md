@@ -6,8 +6,8 @@ weight = 100
 background = "dark" # can influence the text color
 particles = false
 
-title = "Theia.cloud"
-subtitle = "Theia.cloud<br/><span style=\"font-size: 0.65em; color: lightgrey\">Deploying Theia-based products on Kubernetes</span>"
+title = "Theia Cloud"
+subtitle = "Theia Cloud<br/><span style=\"font-size: 0.65em; color: lightgrey\">Deploying Theia-based products on Kubernetes</span>"
 
 [header]
 

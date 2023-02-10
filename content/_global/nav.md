@@ -6,6 +6,6 @@ search = true
 # Branding options
 [asset]
   image = "logo.png"
-  text = "Theia.cloud"
-  title = "Theia.cloud"
+  text = "Theia Cloud"
+  title = "Theia Cloud"
 +++

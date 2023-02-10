@@ -7,7 +7,7 @@ weight = 20
 +++
 
 <p style="margin-left: 5px; margin-right: 5px; text-align: justify">
-Theia.cloud does not reinvent the wheel, it uses vanilla Kubernetes facilities wherever possible.
-Theia.cloud can be seen as a thin layer on top of standard Kubernetes.
+Theia Cloud does not reinvent the wheel, it uses vanilla Kubernetes facilities wherever possible.
+Theia Cloud can be seen as a thin layer on top of standard Kubernetes.
 Therefore you can use existing knowledge and the existing tool ecosystem available for Kubernetes.
 </p>
