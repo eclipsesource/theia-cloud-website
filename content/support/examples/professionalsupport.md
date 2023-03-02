@@ -14,4 +14,4 @@ weight = 20
 **Private channel available (NDA)**\
 **Feature prioritization**
 
-For details please see [here](https://eclipsesource.com/services/developer-support/).
+For details please see [here](https://eclipsesource.com/technology/theia-cloud/).
