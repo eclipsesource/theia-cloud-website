@@ -19,4 +19,9 @@ subtitle = "Theia Cloud<br/><span style=\"font-size: 0.65em; color: lightgrey\">
   url = "https://github.com/eclipsesource/theia-cloud/blob/main/doc/docs/platforms/Minikube.md"
   color = "primary"
 
+[[buttons]]
+  text = "Try now"
+  url = "https://try.theia-cloud.io/"
+  color = "primary"
+
 +++
