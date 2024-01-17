@@ -16,7 +16,7 @@ subtitle = "Theia Cloud<br/><span style=\"font-size: 0.65em; color: lightgrey\">
 
 [[buttons]]
   text = "Getting started"
-  url = "https://github.com/eclipsesource/theia-cloud/blob/main/doc/docs/platforms/Minikube.md"
+  url = "/documentation/gettingstarted/"
   color = "primary"
 
 [[buttons]]
