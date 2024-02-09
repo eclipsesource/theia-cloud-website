@@ -8,11 +8,11 @@ title = "Getting Started with Theia Cloud on Minikube"
   sticky = true
 +++
 
-Theia Cloud is a framework to build a hosting service for Theia-based applications, IDEs and tools. The instances will be hosted on a Kubernetes cluster. In this Getting Started guide we will show you how to run Theia Cloud on a local Minikube Kubernetes cluster.
+Welcome to the setup guide for Theia Cloud on a Kubernetes cluster using Minikube. This tutorial covers the installation of Theia Cloud with Keycloak authentication, launching a Theia IDE instance in a "try now" format for 30-minute explorations. It's a foundational setup that can be customized to include your applications, custom landing page, adjusted usage limits, or specific user authentication.
 
 ## Prerequisites
 
-This section shortly explains which tools have to be installed so that you can follow the guide. 
+This section shortly explains which tools have to be installed so that you can follow the guide.
 
 ### Install Minikube
 
@@ -112,4 +112,4 @@ You should also download the driver image beforehand, similar to:
 minikube start --vm=true --driver=virtualbox --download-only
 ```
 
-You can find the list of drivers here: https://minikube.sigs.k8s.io/docs/drivers/
+You can find the list of drivers here: <https://minikube.sigs.k8s.io/docs/drivers/>
