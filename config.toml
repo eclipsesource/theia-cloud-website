@@ -57,11 +57,10 @@ lastmod = ["lastmod", ":git", "date"]
   name = "Support"
   weight = 20
 
-# add to menu once we have more documentation available than the getting started guide
-# [[menu.main]]
-#   url = "documentation"
-#   name = "Documentation"
-#   weight = 25
+[[menu.main]]
+  url = "documentation"
+  name = "Documentation"
+  weight = 25
 
 # [[menu.main]]
 #   url = "examples"
