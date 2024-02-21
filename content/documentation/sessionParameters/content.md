@@ -18,7 +18,7 @@ The simplest way to start a Session with custom environment variables is using T
 Theia Cloud offers npm package [@eclipse-theiacloud/common](https://www.npmjs.com/package/@eclipse-theiacloud/common) to access the REST API conveniently.
 It offers to provide environment variables directly or as lists of [config maps](https://kubernetes.io/docs/concepts/configuration/configmap/) or [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to read in.
 
-The following code snippet show how to add environment variables while starting a session.
+The following code snippet shows how to add environment variables while starting a session.
 Thereby, the whole `env` as well as its three properties `fromMap`, `fromConfigMaps` and `fromSecrets` are optional.
 The snippet assumes that the parameters `accessToken` and `user` are present as variables based on the authenticated user.
 You can have a look at the [Try Now Page](https://github.com/eclipsesource/theia-cloud/blob/main/node/try-now-page/src/App.tsx) to see an example of how these are derived when logging in via Keycloak.
@@ -27,7 +27,7 @@ You can have a look at the [Try Now Page](https://github.com/eclipsesource/theia
 import { getTheiaCloudConfig, SessionStartRequest, TheiaCloud } from '@eclipse-theiacloud/common';
 
 // Get common parameters from Theia Cloud configuration
-const { appDefinition, appId, serviceUrl} = getTheiaCloudConfig();
+const { appDefinition, appId, serviceUrl } = getTheiaCloudConfig();
 
 // Create request object with customized environment variables
 // user and accessToken are expected to be set based on the authenticated user
@@ -41,8 +41,8 @@ const request: SessionStartRequest = {
     fromMap: {
       mykey: "myvalue"
     },
-    fromConfigMaps: [ "session-config-map-1", "config-map-2"],
-    fromSecrets: [ "session-secret-1", "session-secret-2"]
+    fromConfigMaps: [ "session-config-map-1", "config-map-2" ],
+    fromSecrets: [ "session-secret-1", "session-secret-2" ]
   }
 }
 
