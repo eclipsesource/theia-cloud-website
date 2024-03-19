@@ -21,7 +21,7 @@ Theia Cloud depends on well-established software in the Kubernetes ecosystem.
 We won't go into full detail explaining how to install each dependency but will provide links to their official documentation.
 
 Please note that our [Try Theia Cloud]({{< relref "tryTheiaCloud" >}}) guides use Terraform charts that will install all requirements automatically.
-Please have a look at the [Helm configuration](https://github.com/eclipsesource/theia-cloud/blob/main/terraform/modules/helm/main.tf) to find the used values.
+Please have a look at their [Helm configuration](https://github.com/eclipsesource/theia-cloud/blob/main/terraform/modules/helm/main.tf) to find the values used in the getting started guides.
 
 ### cert-manager.io
 
@@ -44,7 +44,7 @@ You can find the official deployment instructions [here](https://kubernetes.gith
 
 If your use case requires user management, we recommend the use of [Keycloak](https://www.keycloak.org/). Keycloak acts as an OAuth2 provider, and it is possible to integrate other existing providers into Keycloak.
 
-We suggest using the [Bitnami Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/keycloak) for Keycloak.
+We suggest using the [Bitnami Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/keycloak) for the Keycloak installation.
 
 *Please note that it is possible to integrate any OAuth2 provider with Theia Cloud, and this is part of our roadmap. We do not offer documentation and finalized APIs for this yet, however. If you need this feature sooner, please see our [available support options]({{< relref "/support" >}}).*
 
@@ -52,72 +52,71 @@ We suggest using the [Bitnami Helm chart](https://github.com/bitnami/charts/tree
 
 ## Theia Cloud Helm Charts
 
-Theia Cloud offers three helm charts that are available via the helm repository hosted at <https://github.eclipsesource.com/theia-cloud-helm/>.
+Theia Cloud offers three Helm charts that are available via the Helm repository hosted at <https://github.eclipsesource.com/theia-cloud-helm/>.
+These charts are designed to provide a flexible and customizable deployment of Theia Cloud on Kubernetes clusters.
+The available charts are:
 
-* `theia-cloud-base`: Cluster wide resources, like issuers and roles used by Theia Cloud
-* `theia-cloud-crds`: Theia Cloud Custom Resource Definitions and their conversion webhook
-* `theia-cloud`: The main helm chart including Operator and Service
+- `theia-cloud-base`: Installs cluster-wide resources such as issuers and roles used by Theia Cloud.
+- `theia-cloud-crds`: Deploys Theia Cloud Custom Resource Definitions (CRDs) and their conversion webhook.
+- `theia-cloud`: The main Helm chart, including the Operator and Service components for Theia Cloud.
 
-The Helm repository may be added like this:
+To add the Theia Cloud Helm repository for access to these charts, use the following command:
 
 ```sh
 helm repo add theia-cloud-repo https://github.eclipsesource.com/theia-cloud-helm
 ```
 
-If you added the repository earlier already, please run `helm repo update` to get the latest charts for all repositories.
+If you have previously added this repository, ensure you have the latest charts by updating the repository:
 
-*Please note that we are working on making the chart contents as customizable as possible and to add the possibility to skip any optional resources. If you need some changes earlier, please see our [available support options]({{< relref "/support" >}}).*
+```sh
+helm repo update
+```
 
-In this part of the documentation we will give you an overview over the different helm charts with a simple sample configuration.
-We cannot explain every possible value within this guide.
-We will offer links to the value documentation for each chart.
-Besides that please also take a look at our [terraform getting started configurations](https://github.com/eclipsesource/theia-cloud/tree/main/terraform/configurations).
-These will create full Theia Cloud installations on different cluster providers, currently for GKE and Minikube.
-You can use these configuration as starting points for your setup.
-We plan to offer more configurations in the future.
-
-*If you need an example for a specific cluster provider earlier, please see our [available support options]({{< relref "/support" >}}).*
+We aim to make the contents of these charts as customizable as possible.
+This includes providing options to skip any optional resources during installation.
+This guide provides an overview of each Helm chart along with sample configurations.
+For comprehensive configuration options, refer to the linked documentation within each section.
+Additionally, explore our [Terraform configurations](https://github.com/eclipsesource/theia-cloud/tree/main/terraform/configurations) for complete Theia Cloud setups on various cluster providers, including GKE and Minikube.
+For early access to customization options, new terraform examples, or if you require specific changes, please consult our [support options]({{< relref "/support" >}}).
 
 ### theia-cloud-base
 
-The goal of this chart is to install cluster-wide resources that are not bound to a namespace.
+This chart installs cluster-wide resources necessary for Theia Cloud's operation.
+Currently, it includes two `ClusterIssuer` resources for certificate management and two `ClusterRole` resources for the Theia Cloud Operator and Service.
 
-At the moment there are two `ClusterIssuer`s, one creating self-signed certificates and one creating let's encrypt certificates. Moreover we install two `ClusterRole`s for the Theia Cloud Operator and the Theia Cloud Service.
-
-Create a file called `base-values.yaml` with the following contents (enter your mail address):
+To install, first create a `base-values.yaml` file with your email address:
 
 ```yaml
 issuer:
   email: j.doe@theia-cloud.io
 ```
 
-*The full list of possible values that can be customized can be found [here](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia.cloud-base/README.md). You can customize the name of the cluster-wide resources in order to avoid potential conflicts.*
-
-Then install with:
+Install the chart using:
 
 ```sh
 helm install my-theia-cloud-base theia-cloud-repo/theia-cloud-base -f base-values.yaml
 ```
 
+For a full list of customizable values, visit [theia-cloud-base chart documentation](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia.cloud-base/README.md).
+
 ### theia-cloud-crds
 
-This chart contains everything related to Theia Cloud's custom resource definitions. While the CRDs itself are cluster-wide, we also have a service that can migrate between different versions.
+This chart focuses on Theia Cloud's CRDs and includes a service for version migration.
+It's essential for maintaining custom resources within your cluster.
 
-*The full list of possible values that can be customized can be found [here](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia-cloud-crds/README.md). By default we try to use the self-signed issuer installed with the base chart. If the `issuerstaging.name` values was adjusted in the base chart installation, the `clusterIssuer` value has to be adjusted here as well. Other values than can be customized are about the image for the conversion webhook.*
-
-You can install the CRDs with:
+Installation commands:
 
 ```sh
 kubectl create namespace my-namespace
 helm -n my-namespace install my-theia-cloud-crds theia-cloud-repo/theia-cloud-crds
 ```
 
+Refer to [theia-cloud-crds chart documentation](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia-cloud-crds/README.md) for customization details.
+
 ### theia-cloud
 
-Finally the Theia Cloud main chart. This will install Theia Cloud in the provided namespace.
-
-Please create a file called `values.yaml` with the contents below.
-You can find the full list of possible values that can be customized [here](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia.cloud/README.md).
+The main Theia Cloud chart installs the Operator and Service in your chosen namespace.
+Begin by creating a `values.yaml` file with your desired configuration, e.g.:
 
 ```yaml
 app:
@@ -150,42 +149,41 @@ servicerole:
   name: service-api-access
 ```
 
-Please exchange `app.id` with a generated string. This is public though, so do not use a secret!
+Customization Instructions:
 
-In `image.name` and `image.timeout` you can configure a custom Theia docker image to use and a time after which sessions will get shut down automatically.
-
-You have to adjust the `hosts.paths.baseHost` value. As a starting point you could start with the public ip of the ingress controller. Run
+- `app.id`: Generate a unique string for `app.id`. This identifier is public, so don't reuse a secret.
+- Image Configuration: `image.name` allows you to specify a custom Docker image for Theia. Use `image.timeout` to define the session timeout, after which the application will automatically shut down.
+- Host Configuration: The `hosts.paths.baseHost` value has to be set to the hostname you want to use. An easy way to get started could be the public IP of your ingress controller. For example you may get this with:
 
 ```sh
 kubectl -n ingress-nginx get service ingress-nginx-controller -o yaml
 ```
 
-and check out the status object, e.g.:
-
 ```yaml
+# check the status for the public ip
 status:
   loadBalancer:
     ingress:
     - ip: 12.345.67.89
 ```
 
-On Minikube you would get this with `minikube ip`. You may then use e.g. `12.345.67.89.sslip.io` as the hostname.
+```sh
+# When using a minikube cluster, you may use
+minikube ip
+```
 
-Here we disable Keycloak with `keycloak.enable`. Please check out the options [here](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia.cloud/README.md) to learn about all Keycloak options.
+- Keycloak Integration: By setting `keycloak.enable` to `false`, you opt out of Keycloak integration. If you wish to utilize Keycloak for authentication, further configuration will be necessary. Please check out the options [here](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia.cloud/README.md) to learn about all Keycloak options.\
 For configuring Keycloak itself please have a look at the [oauth2-proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/keycloak_oidc) and our [terraform Keycloak Example Realm configuration](https://github.com/eclipsesource/theia-cloud/blob/main/terraform/modules/keycloak/main.tf).
+- Cloud Provider Configuration: Adjust `operator.cloudProvider` to `MINIKUBE` if running on Minikube or leave the current value `K8S` for other clusters.
+- Ingress and Security: `ingress.clusterIssuer` may have to be adjusted if a different issuer than the Let's encrypt issuer should be used or if it was installed with a different name. `ingress.theiaCloudCommonName` may have to be adjusted if the certificate created by the issuer misses the common name property.
+- Roles Configuration: `operatorrole` and `servicerole` names might need adjustments if you adjusted the name during the base chart installation
 
-If you are trying this with Minikube. please adjust `operator.cloudProvider` to `MINIKUBE`. Keep as `K8S` otherwise.
-
-`ingress.clusterIssuer` may have to be adjusted if a different issuer than the Let's encrypt issuer should be used or if it was installed with a different name. `ingress.theiaCloudCommonName` may have to be adjusted if the certificate created by the issuer misses the common name property.
-
-`operatorrole` and `servicerole` may have to be adjusted of different names were used in the base chart.
-
-<img src="../../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
-
-After the values were adjusted to your needs, you may install Theia Cloud with:
+After adjusting the values to your needs, install Theia Cloud with:
 
 ```sh
 helm -n my-namespace install my-theia-cloud theia-cloud-repo/theia-cloud -f values.yaml
 ```
 
-With above values the Theia Cloud sample landing page will be running at <https://12.345.67.89.sslip.io/trynow/>.
+This setup enables access to the Theia Cloud sample landing page at <https://12.345.67.89.sslip.io/trynow/>.
+
+For detailed installation instructions and customization options, visit [the main Theia Cloud chart documentation](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia.cloud/README.md).
