@@ -16,7 +16,7 @@ This tutorial describes how custom parameters are injected into session pods as 
 This may be used to inject parameters into a session that are not equal for all sessions of an app definition.
 For instance, access tokens or dynamic parameters such as a Git repository to check out.
 
-### Adding environment variables via REST API
+#### Adding environment variables via REST API
 
 The simplest way to start a Session with custom environment variables is using Theia Cloud's REST API.
 Theia Cloud offers npm package [@eclipse-theiacloud/common](https://www.npmjs.com/package/@eclipse-theiacloud/common) to access the REST API conveniently.
@@ -54,7 +54,7 @@ const request: SessionStartRequest = {
 TheiaCloud.Session.startSession(request);
 ```
 
-### Adding environment variables via Session CR
+#### Adding environment variables via Session CR
 
 The environment variables can also be configured directly through the Session custom resource by adding one or multiple of the following properties:
 
@@ -64,7 +64,7 @@ The environment variables can also be configured directly through the Session cu
 
 - [envVarsFromSecrets](https://github.com/eclipsesource/theia-cloud-helm/blob/4cd9d98d30cebe8d31e7084369878c1c2d28776c/charts/theia-cloud-crds/templates/session-spec-resource.yaml#L54-L57): Similar to `envVarsFromConfigMaps`, this property lets you define a list of Kubernetes secrets from which to read environment variables. This method is a good fit for sensitive information such as credentials, ensuring that such details are managed securely and in accordance with Kubernetes best practices.
 
-### Accessing environment variables in Theia
+#### Accessing environment variables in Theia
 
 With the additional environment variables injected into Theia, they can now be read in your Theia extension.
 This is facilitated by Theia's `EnvVariablesServer` like the following.
