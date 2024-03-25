@@ -102,3 +102,43 @@ docker run -p=3000:3000 --rm your-image:tag
 ```
 
 Adjust the port number as necessary.
+
+<img src="../../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
+
+## Enable Monitor (Optional)
+
+Managing resources within your Kubernetes cluster is crucial for ensuring that users experience fast startup and response times.
+However, it's equally important to consider the cost implications.
+To address this, Theia Cloud provides an optional Monitor component.
+This component assesses user activity within an IDE session.
+Users are warned about potential session termination if they remain inactive.
+Should inactivity continue beyond a specified timeout, the session is automatically stopped.
+
+To leverage this functionality, you must integrate a specific component into your application, enabling communication with Theia Cloud.
+There are two primary methods for incorporating this monitor.
+
+### Theia Extension
+
+The first method involves using a Theia extension, available directly from the npm registry.
+To include it in your application, simply add `@eclipse-theiacloud/monitor-theia` to the `package.json` of your application, as shown below:
+
+```json
+"dependencies": {
+  "@eclipse-theiacloud/monitor-theia": "next",
+  "@theia/core": "1.43.1",
+  "@theia/editor": "1.43.1",
+  "@theia/editor-preview": "1.43.1",
+  "@theia/electron": "1.43.1",
+  "@theia/filesystem": "1.43.1",
+
+```
+
+For an example of how to implement this, consider our [test sample application](https://github.com/eclipsesource/theia-cloud/tree/main/demo/dockerfiles/demo-theia-monitor-theia).
+
+### VS Code Extension
+
+Alternatively, you may opt for the Theia Cloud Monitor VS Code extension.
+This extension relies on the VSCode API for activity detection, which may not be as effective as the Theia Extension method.
+Therefore, we recommend using the Theia Extension over the VS Code extension.
+The `*.vsix` file for this extension can be downloaded from our GitHub Releases page.
+For instance, for release 0.9.0, the extension is available [here](https://github.com/eclipsesource/theia-cloud/releases/download/0.9.0/theiacloud-monitor-0.9.0.vsix).
