@@ -123,7 +123,7 @@ app:
   id: asdfghjkl
   name: My Theia
 
-image:
+demoApplication:
   name: theiacloud/theia-cloud-demo
   timeout: "30"
 
@@ -152,7 +152,7 @@ servicerole:
 Customization Instructions:
 
 - `app.id`: Generate a unique string for `app.id`. This identifier is public, so don't reuse a secret.
-- Image Configuration: `image.name` allows you to specify a custom Docker image for Theia. Use `image.timeout` to define the session timeout, after which the application will automatically shut down.
+- Image Configuration: `demoApplication.name` allows you to specify a custom Docker image for Theia. Use `demoApplication.timeout` to define the session timeout, after which the application will automatically shut down.
 - Host Configuration: The `hosts.paths.baseHost` value has to be set to the hostname you want to use. An easy way to get started could be the public IP of your ingress controller. For example you may get this with:
 
 ```sh
