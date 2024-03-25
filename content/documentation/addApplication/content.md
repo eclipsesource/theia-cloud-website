@@ -142,3 +142,72 @@ This extension relies on the VSCode API for activity detection, which may not be
 Therefore, we recommend using the Theia Extension over the VS Code extension.
 The `*.vsix` file for this extension can be downloaded from our GitHub Releases page.
 For instance, for release 0.9.0, the extension is available [here](https://github.com/eclipsesource/theia-cloud/releases/download/0.9.0/theiacloud-monitor-0.9.0.vsix).
+
+<img src="../../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
+
+## Add an App Definition
+
+After creating an image for your application, the next step is to author the App Definition.
+This definition encapsulates all the universal information about your application, relevant to all users.
+Use `kubectl apply -f your-appdefinition.yaml` to deploy this in the cluster.
+Below is a starter template for the App Definition in YAML format.
+
+```yaml
+apiVersion: theia.cloud/v1beta9
+kind: AppDefinition
+metadata:
+  name: my-theia-application
+  namespace: my-namespace
+spec:
+  name: my-theia-application
+  image: your-image:tag
+  uid: 101
+  port: 3000
+  ingressname: theia-cloud-demo-ws-ingress
+  minInstances: 0
+  maxInstances: 10
+  requestsMemory: 1000M
+  requestsCpu: 100m
+  limitsMemory: 1200M
+  limitsCpu: "2"
+  imagePullPolicy: IfNotPresent
+  timeout: 240
+  downlinkLimit: 30000
+  uplinkLimit: 30000
+  mountPath: /home/project/persisted
+  monitor:
+    port: 8081
+    activityTracker:
+      timeoutAfter: 30
+      notifyAfter: 25
+```
+
+#### Mandatory Properties
+
+* **`name`**: This is your application's identifier and is used to reference this App Definition. It is recommended to match `metadata.name` of the Kubernetes resource, meaning that valid characters include lowercase alphanumerics and '-'.
+
+* **`image`**: Specify your container image.
+
+* **`uid`**: The UNIX user identifier for the application launch user, typically specified in your Dockerfile. Avoid using the root user's identifier.
+
+* **`port`**: The port on which Theia runs.
+
+* **`ingressname`**: Defines the ingress resource to be patched for exposing new application sessions. Typically, this should match the `ingress.instanceName` used during the `theia-cloud` helm chart installation. For the default value, see [theia-cloud helm chart details](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia.cloud).
+
+* **`minInstances`**: Currently, this should be 0. Future versions may support pre-launching sessions for incoming users. *If you need this feature earlier, explore our [support options]({{< relref "/support" >}}).*
+
+* **`maxInstances`**: Sets the maximum number of application instances. Use a positive number for specific limits, or a negative number for no limit.
+
+* **Resource Requests and Limits**: `requestsMemory`, `requestsCpu`, `limitsMemory`, and `limitsCpu` define the application's resource requirements, similar to Kubernetes resource definitions.
+
+#### Optional Properties
+
+* **`imagePullPolicy`**: Governs the image pull behavior, with options `"Always"`, `"IfNotPresent"`, or `"Never"`.
+
+* **`timeout`**: Enables a hard shutdown after a specified duration (in minutes). Disable by omitting this property or using 0/negative values.
+
+* **`downlinkLimit`** and **`uplinkLimit`**: Specify network speed limits in kilobits per second. Availability may vary based on the cluster and `operator.bandwidthLimiter` settings during `theia-cloud` helm chart installation.
+
+* **`mountPath`**: The container path where workspace persistent storage is mounted.
+
+* **Monitor Configuration**: `monitor.port`, `monitor.activityTracker.timeoutAfter`, and `monitor.activityTracker.notifyAfter` adjust Theia Cloud Monitor settings. Use the Theia application port for the Theia Cloud Extension, or `8081` for the VS Code extension. `notifyAfter` and `timeoutAfter` manage inactivity warnings and session terminations, respectively.
