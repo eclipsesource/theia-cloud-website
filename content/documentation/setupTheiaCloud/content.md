@@ -38,7 +38,7 @@ By default, the ingresses installed with the Theia Cloud Helm charts and created
 
 You can find the official deployment instructions [here](https://kubernetes.github.io/ingress-nginx/deploy/).
 
-*Please note that it is possible to integrate other types of ingresses into Theia Cloud as well, and this is part of our roadmap. We do not offer documentation and finalized APIs for this yet, however. If you need this feature sooner, please see our [available support options]({{< relref "/support" >}}).*
+_Please note that it is possible to integrate other types of ingresses into Theia Cloud as well, and this is part of our roadmap. We do not offer documentation and finalized APIs for this yet, however. If you need this feature sooner, please see our [available support options]({{< relref "/support" >}})._
 
 ### Keycloak (optional)
 
@@ -46,7 +46,7 @@ If your use case requires user management, we recommend the use of [Keycloak](ht
 
 We suggest using the [Bitnami Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/keycloak) for the Keycloak installation.
 
-*Please note that it is possible to integrate any OAuth2 provider with Theia Cloud, and this is part of our roadmap. We do not offer documentation and finalized APIs for this yet, however. If you need this feature sooner, please see our [available support options]({{< relref "/support" >}}).*
+_Please note that it is possible to integrate any OAuth2 provider with Theia Cloud, and this is part of our roadmap. We do not offer documentation and finalized APIs for this yet, however. If you need this feature sooner, please see our [available support options]({{< relref "/support" >}})._
 
 <img src="../../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
 
@@ -164,7 +164,7 @@ kubectl -n ingress-nginx get service ingress-nginx-controller -o yaml
 status:
   loadBalancer:
     ingress:
-    - ip: 12.345.67.89
+      - ip: 12.345.67.89
 ```
 
 ```sh
@@ -173,7 +173,7 @@ minikube ip
 ```
 
 - Keycloak Integration: By setting `keycloak.enable` to `false`, you opt out of Keycloak integration. If you wish to utilize Keycloak for authentication, further configuration will be necessary. Please check out the options [here](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia.cloud/README.md) to learn about all Keycloak options.\
-For configuring Keycloak itself please have a look at the [oauth2-proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/keycloak_oidc) and our [terraform Keycloak Example Realm configuration](https://github.com/eclipsesource/theia-cloud/blob/main/terraform/modules/keycloak/main.tf).
+  For configuring Keycloak itself please have a look at the [oauth2-proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/keycloak_oidc) and our [terraform Keycloak Example Realm configuration](https://github.com/eclipsesource/theia-cloud/blob/main/terraform/modules/keycloak/main.tf).
 - Cloud Provider Configuration: Adjust `operator.cloudProvider` to `MINIKUBE` if running on Minikube or leave the current value `K8S` for other clusters.
 - Ingress and Security: `ingress.clusterIssuer` may have to be adjusted if a different issuer than the Let's encrypt issuer should be used or if it was installed with a different name. `ingress.theiaCloudCommonName` may have to be adjusted if the certificate created by the issuer misses the common name property.
 - Roles Configuration: `operatorrole` and `servicerole` names might need adjustments if you adjusted the name during the base chart installation
@@ -187,3 +187,62 @@ helm -n my-namespace install my-theia-cloud theia-cloud-repo/theia-cloud -f valu
 This setup enables access to the Theia Cloud sample landing page at <https://12.345.67.89.sslip.io/trynow/>.
 
 For detailed installation instructions and customization options, visit [the main Theia Cloud chart documentation](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia.cloud/README.md).
+
+<img src="../../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
+
+## Update Theia Cloud
+
+This section explains how to update your Theia Cloud deployment.
+This includes updating values as well as upgrading to a new Theia Cloud version.
+Similar to the installation, Helm is used for this.
+
+Before moving to a new Theia Cloud version, you might want to have a look at the [Theia Cloud Helm changelog](https://github.com/eclipsesource/theia-cloud-helm/blob/main/CHANGELOG.md). If you customized core components (e.g. the operator), you also might want to look at [Theia Cloud's code changelog](https://github.com/eclipsesource/theia-cloud/blob/main/CHANGELOG.md).
+
+Make sure you have the Theia Cloud helm charts available and updated as described in section [Theia Cloud Helm Charts](#theia-cloud-helm-charts).
+In short:
+
+```bash
+# First time only
+helm repo add theia-cloud-repo https://github.eclipsesource.com/theia-cloud-helm
+
+# Update the helm repo
+helm repo update
+```
+
+You may inspect the available chart versions with:
+
+```bash
+helm search repo theia-cloud-remote --versions
+```
+
+For the following update steps, we assume that you named your values files and Helm installations as in section [Theia Cloud Helm Charts](#theia-cloud-helm-charts).
+
+**Note:** Even if you only want to update the values of your Theia Cloud installation, Helm upgrades to the latest version of the chart by default.
+To stay on the current version or upgrade to a specific version, use the `--version` option of `helm upgrade`.
+For more information see the official Helm upgrade documentation: <https://helm.sh/docs/helm/helm_upgrade/>.
+
+Instructions to upgrade the charts:
+
+```bash
+# Base chart
+helm upgrade my-theia-cloud-base theia-cloud-repo/theia-cloud-base -f base-values.yaml
+
+# CRD chart
+helm -n my-namespace upgrade my-theia-cloud-crds theia-cloud-repo/theia-cloud-crds
+
+# Main chart
+helm -n my-namespace upgrade my-theia-cloud theia-cloud-repo/theia-cloud -f values.yaml
+```
+
+Instructions to upgrade the charts to a specific Theia Cloud version (here 0.10.0):
+
+```bash
+# Base chart
+helm upgrade my-theia-cloud-base theia-cloud-repo/theia-cloud-base -f base-values.yaml --version 0.10.0
+
+# CRD chart
+helm -n my-namespace upgrade my-theia-cloud-crds theia-cloud-repo/theia-cloud-crds --version 0.10.0
+
+# Main chart
+helm -n my-namespace upgrade my-theia-cloud theia-cloud-repo/theia-cloud -f values.yaml --version 0.10.0
+```
