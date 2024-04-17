@@ -6,11 +6,19 @@
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "markdownlint.config": {
     "no-inline-html": {
-      "allowed_elements": ["br", "details", "em", "img", "kbd", "p", "summary"]
+      "allowed_elements": [
+        "br",
+        "details",
+        "em",
+        "img",
+        "kbd",
+        "p",
+        "summary"
+      ]
     }
   },
   "[json]": {
