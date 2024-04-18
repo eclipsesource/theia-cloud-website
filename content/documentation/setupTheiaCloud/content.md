@@ -212,7 +212,7 @@ helm repo update
 You may inspect the available chart versions with:
 
 ```bash
-helm search repo theia-cloud-remote --versions
+helm search repo theia-cloud-repo --versions
 ```
 
 For the following update steps, we assume that you named your values files and Helm installations as in section [Theia Cloud Helm Charts](#theia-cloud-helm-charts).
