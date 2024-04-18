@@ -16,7 +16,7 @@ To launch your Theia application with Theia Cloud, it's essential to containeriz
 This tutorial provides a brief guide on achieving this.
 Of course this needs to be tailored to your application's build process.
 
-*For a practical example, refer to the [Theia IDE](https://github.com/eclipse-theia/theia-blueprint?tab=readme-ov-file#docker-build). It illustrates packaging a Theia-based application in a Dockerfile and creating desktop installers.*
+_For a practical example, refer to the [Theia IDE](https://github.com/eclipse-theia/theia-blueprint?tab=readme-ov-file#docker-build). It illustrates packaging a Theia-based application in a Dockerfile and creating desktop installers._
 
 A staged build process is recommended, generally comprising at least two stages:
 
@@ -58,8 +58,8 @@ RUN yarn --pure-lockfile && \
 # Stage 2: Production stage, using a slim image
 FROM node:20-bullseye-slim as production-stage
 
-# Create a non-root user and setup the environment
-RUN adduser --system --group theia && \
+# Create a non-root user with a fixed user id and setup the environment
+RUN adduser --system --group --uid 200 theia && \
     chmod g+rw /home && \
     mkdir -p /home/theia && \
     chown -R theia:theia /home/theia
@@ -91,9 +91,9 @@ Build your container image with:
 docker build -t your-image:tag -f Dockerfile .
 ```
 
-* `-t your-image:tag` specifies the image name and tag.
-* `-f Dockerfile` indicates the Dockerfile path.
-* `.` denotes the current directory context for the build.
+- `-t your-image:tag` specifies the image name and tag.
+- `-f Dockerfile` indicates the Dockerfile path.
+- `.` denotes the current directory context for the build.
 
 Test your image with:
 
@@ -161,7 +161,7 @@ metadata:
 spec:
   name: my-theia-application
   image: your-image:tag
-  uid: 101
+  uid: 200
   port: 3000
   ingressname: theia-cloud-demo-ws-ingress
   minInstances: 0
@@ -184,30 +184,33 @@ spec:
 
 #### Mandatory Properties
 
-* **`name`**: This is your application's identifier and is used to reference this App Definition. It is recommended to match `metadata.name` of the Kubernetes resource, meaning that valid characters include lowercase alphanumerics and '-'.
+- **`name`**: This is your application's identifier and is used to reference this App Definition. It is recommended to match `metadata.name` of the Kubernetes resource, meaning that valid characters include lowercase alphanumerics and '-'.
 
-* **`image`**: Specify your container image.
+- **`image`**: Specify your container image.
 
-* **`uid`**: The UNIX user identifier for the application launch user, typically specified in your Dockerfile. Avoid using the root user's identifier.
+- **`uid`**: The UNIX user identifier for the application launch user, typically specified in your Dockerfile. Avoid using the root user's identifier.
+  **Tip:** We recommend setting a fixed user id via the `--uid` option of the `adduser` command.
+  This guarantees a static id even when the base image or previously installed dependencies change.
+  As the `adduser` command fails if the chosen user id is already taken, you know that your specified id is used when the docker build succeeds.
 
-* **`port`**: The port on which Theia runs.
+- **`port`**: The port on which Theia runs.
 
-* **`ingressname`**: Defines the ingress resource to be patched for exposing new application sessions. Typically, this should match the `ingress.instanceName` used during the `theia-cloud` helm chart installation. For the default value, see [theia-cloud helm chart details](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia.cloud).
+- **`ingressname`**: Defines the ingress resource to be patched for exposing new application sessions. Typically, this should match the `ingress.instanceName` used during the `theia-cloud` helm chart installation. For the default value, see [theia-cloud helm chart details](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia.cloud).
 
-* **`minInstances`**: Currently, this should be 0. Future versions may support pre-launching sessions for incoming users. *If you need this feature earlier, explore our [support options]({{< relref "/support" >}}).*
+- **`minInstances`**: Currently, this should be 0. Future versions may support pre-launching sessions for incoming users. _If you need this feature earlier, explore our [support options]({{< relref "/support" >}})._
 
-* **`maxInstances`**: Sets the maximum number of application instances. Use a positive number for specific limits, or a negative number for no limit.
+- **`maxInstances`**: Sets the maximum number of application instances. Use a positive number for specific limits, or a negative number for no limit.
 
-* **Resource Requests and Limits**: `requestsMemory`, `requestsCpu`, `limitsMemory`, and `limitsCpu` define the application's resource requirements, similar to Kubernetes resource definitions.
+- **Resource Requests and Limits**: `requestsMemory`, `requestsCpu`, `limitsMemory`, and `limitsCpu` define the application's resource requirements, similar to Kubernetes resource definitions.
 
 #### Optional Properties
 
-* **`imagePullPolicy`**: Governs the image pull behavior, with options `"Always"`, `"IfNotPresent"`, or `"Never"`.
+- **`imagePullPolicy`**: Governs the image pull behavior, with options `"Always"`, `"IfNotPresent"`, or `"Never"`.
 
-* **`timeout`**: Enables a hard shutdown after a specified duration (in minutes). Disable by omitting this property or using 0/negative values.
+- **`timeout`**: Enables a hard shutdown after a specified duration (in minutes). Disable by omitting this property or using 0/negative values.
 
-* **`downlinkLimit`** and **`uplinkLimit`**: Specify network speed limits in kilobits per second. Availability may vary based on the cluster and `operator.bandwidthLimiter` settings during `theia-cloud` helm chart installation.
+- **`downlinkLimit`** and **`uplinkLimit`**: Specify network speed limits in kilobits per second. Availability may vary based on the cluster and `operator.bandwidthLimiter` settings during `theia-cloud` helm chart installation.
 
-* **`mountPath`**: The container path where workspace persistent storage is mounted.
+- **`mountPath`**: The container path where workspace persistent storage is mounted.
 
-* **Monitor Configuration**: `monitor.port`, `monitor.activityTracker.timeoutAfter`, and `monitor.activityTracker.notifyAfter` adjust Theia Cloud Monitor settings. Use the Theia application port for the Theia Cloud Extension, or `8081` for the VS Code extension. `notifyAfter` and `timeoutAfter` manage inactivity warnings and session terminations, respectively.
+- **Monitor Configuration**: `monitor.port`, `monitor.activityTracker.timeoutAfter`, and `monitor.activityTracker.notifyAfter` adjust Theia Cloud Monitor settings. Use the Theia application port for the Theia Cloud Extension, or `8081` for the VS Code extension. `notifyAfter` and `timeoutAfter` manage inactivity warnings and session terminations, respectively.
