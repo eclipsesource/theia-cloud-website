@@ -48,12 +48,15 @@ WORKDIR /home/theia
 # Copy the current directory contents to the container
 COPY . .
 
-# Run the build commands
-RUN yarn --pure-lockfile && \
+# Run the build commands. This assumes the following scripts to be present in your root package.json
+# build:extensions - Builds all Theia extensions except for the browser-app
+# download:plugins - Downloads all Theia plugins and VS Code extensions. Can be omitted if you don't require this.
+# build:browser    - Builds the browser-app defining your application
+# Note that you might define other build commands. The important thing is to gather all dependencies & VS Code extensions (if any) and build all theia extensions and the browser app.
+RUN yarn --frozen-lockfile && \
     yarn build:extensions && \
     yarn download:plugins && \
-    yarn browser build && \
-    yarn --production
+    yarn build:browser
 
 # Stage 2: Production stage, using a slim image
 FROM node:20-bullseye-slim as production-stage
