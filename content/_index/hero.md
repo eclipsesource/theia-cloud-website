@@ -16,7 +16,7 @@ subtitle = "Theia Cloud<br/><span style=\"font-size: 0.65em; color: lightgrey\">
 
 [[buttons]]
   text = "Getting started"
-  url = "/documentation/trytheiacloud/#on-your-machine-with-minikube"
+  url = "/documentation/trytheiacloud/"
   color = "primary"
 
 [[buttons]]
