@@ -156,7 +156,7 @@ Use `kubectl apply -f your-appdefinition.yaml` to deploy this in the cluster.
 Below is a starter template for the App Definition in YAML format.
 
 ```yaml
-apiVersion: theia.cloud/v1beta9
+apiVersion: theia.cloud/v1beta10
 kind: AppDefinition
 metadata:
   name: my-theia-application
@@ -166,6 +166,8 @@ spec:
   image: your-image:tag
   uid: 200
   port: 3000
+  ingressHostnamePrefixes:
+    - "*.webview."
   ingressname: theia-cloud-demo-ws-ingress
   minInstances: 0
   maxInstances: 10
@@ -207,6 +209,8 @@ spec:
 - **Resource Requests and Limits**: `requestsMemory`, `requestsCpu`, `limitsMemory`, and `limitsCpu` define the application's resource requirements, similar to Kubernetes resource definitions.
 
 #### Optional Properties
+
+- **`ingressHostnamePrefixes`**: Some applications expose additional features on a subdomain. To expose these additional domains via the ingress, you need to add the appropriate entries. For instance, Theia exposes webviews on a subdomain, such as `some-uuid.webview.your-theia-cloud-domain.io`, when its default values are used. To support this, you need to add an entry like `*.webview.` (the trailing dot is required). Additionally, the values of all used app definitions must be specified via the `hosts.allWildcardInstances` value of the `theia-cloud` helm chart for proper TLS certificate generation and configuration.
 
 - **`imagePullPolicy`**: Governs the image pull behavior, with options `"Always"`, `"IfNotPresent"`, or `"Never"`.
 
