@@ -28,7 +28,11 @@ The snippet assumes that the parameters `accessToken` and `user` are present as 
 You can have a look at the [Try Now Page](https://github.com/eclipsesource/theia-cloud/blob/main/node/try-now-page/src/App.tsx) to see an example of how these are derived when logging in via Keycloak.
 
 ```typescript
-import { getTheiaCloudConfig, SessionStartRequest, TheiaCloud } from '@eclipse-theiacloud/common';
+import {
+  getTheiaCloudConfig,
+  SessionStartRequest,
+  TheiaCloud,
+} from "@eclipse-theiacloud/common";
 
 // Get common parameters from Theia Cloud configuration
 const { appDefinition, appId, serviceUrl } = getTheiaCloudConfig();
@@ -43,12 +47,12 @@ const request: SessionStartRequest = {
   appDefinition,
   env: {
     fromMap: {
-      mykey: "myvalue"
+      mykey: "myvalue",
     },
-    fromConfigMaps: [ "session-config-map-1", "config-map-2" ],
-    fromSecrets: [ "session-secret-1", "session-secret-2" ]
-  }
-}
+    fromConfigMaps: ["session-config-map-1", "config-map-2"],
+    fromSecrets: ["session-secret-1", "session-secret-2"],
+  },
+};
 
 // Send request
 TheiaCloud.Session.startSession(request);
@@ -70,19 +74,19 @@ With the additional environment variables injected into Theia, they can now be r
 This is facilitated by Theia's `EnvVariablesServer` like the following.
 
 ```typescript
-import { injectable, inject} from 'inversify';
-import { EnvVariablesServer } from '@theia/core/lib/common/env-variables';
+import { injectable, inject } from "inversify";
+import { EnvVariablesServer } from "@theia/core/lib/common/env-variables";
 
 @injectable()
 export class MyEnvProcessor {
-
   constructor(
-    @inject(EnvVariablesServer) protected readonly environments: EnvVariablesServer
-  ) { }
+    @inject(EnvVariablesServer)
+    protected readonly environments: EnvVariablesServer
+  ) {}
 
   readCustomEnvironmentVariables() {
     // Read environment variable with key MYKEY
-    const myValue = environments.getValue('MYKEY');
+    const myValue = environments.getValue("MYKEY");
   }
 }
 ```
@@ -104,3 +108,51 @@ The key components of this pattern are:
 - **Custom Resource Definitions (CRDs):** These define the schema for custom resources, allowing the Kubernetes API to recognize and manage them.
 - **Custom Resources (CRs):** Extensions of the Kubernetes API, these resources contain the configuration and operational state of an application, based on a specific CRD.
 - **Operator:** This component continuously monitors the CRs, making adjustments to the application to ensure it matches the user-defined desired state.
+
+<img src="../../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
+
+## Custom Certificates
+
+Our default installation includes basic support for Let's Encrypt certificates.
+However, more advanced use cases, such as wildcard certificates, require specific configuration allowing the cert-manager to update DNS entries (see [here](https://cert-manager.io/docs/configuration/acme/dns01/)) to obtain valid certificates from Let's Encrypt.
+To support this, you can create your own cluster issuer and pass the name to Theia Cloud using the [`ingress.clusterIssuer` helm value](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia.cloud#readme).
+
+In a production environment, you often have existing certificates you want to use.
+For this, we have the `ingress.certManagerAnnotations` helm value, which can be set to `false` to avoid adding any cert-manager-related annotations on the ingress.
+For path-based installations, where our default templates don't add TLS secret names, you can enable them by setting `hosts.paths.tlsSecretName` to `true`.
+
+The landing page will use the certificate from a secret called `landing-page-cert-secret`, the REST service from the `service-cert-secret`, and the instances ingress from the `ws-cert-secret`.
+
+You can then import your certificates as described in the [Kubernetes documentation](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_tls/), e.g.
+
+```sh
+kubectl -n theiacloud create secret tls service-cert-secret --cert=/home/user/certificate/service3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/service3.my-theia-cloud.io/privkey1.pem
+kubectl -n theiacloud create secret tls landing-page-cert-secret --cert=/home/user/certificate/landing3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/landing3.my-theia-cloud.io/privkey1.pem
+kubectl -n theiacloud create secret tls ws-cert-secret --cert=/home/user/certificate/webview.ws3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/webview.ws3.my-theia-cloud.io/privkey1.pem
+```
+
+#### Manual Wild Card Certificates using Let's Encrypt
+
+For testing purposes, it is convenient to create temporary certificates using Let's Encrypt.
+This assumes that Certbot is installed on your system.
+
+You can initiate a manual challenge with the following command:
+
+```sh
+sudo certbot certonly --manual --preferred-challenges=dns --email jdoe@theia-cloud.io --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d *.webview.ws3.my-theia-cloud.io -d ws3.my-theia-cloud.io
+```
+
+Certbot will provide the DNS TXT records that need to be created, for example:
+
+```sh
+Please deploy a DNS TXT record under the name:
+
+_acme-challenge.webview.ws3.my-theia-cloud.io.
+
+with the following value:
+....
+
+```
+
+Follow the instructions until you receive your certificates.
+Remember to remove the TXT records after your certificate has been issued.
