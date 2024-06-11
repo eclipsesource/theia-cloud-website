@@ -198,7 +198,7 @@ spec:
 
 - **`port`**: The port on which Theia runs.
 
-- **`ingressname`**: Defines the ingress resource to be patched for exposing new application sessions. Typically, this should match the `ingress.instanceName` used during the `theia-cloud` helm chart installation. For the default value, see [theia-cloud helm chart details](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia.cloud).
+- **`ingressname`**: Defines the ingress resource to be patched for exposing new application sessions. Typically, this should match the `ingress.instanceName` used during the `theia-cloud` helm chart installation. For the default value, see [theia-cloud helm chart details](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia-cloud).
 
 - **`minInstances`**: Currently, this should be 0. Future versions may support pre-launching sessions for incoming users. _If you need this feature earlier, explore our [support options]({{< relref "/support" >}})._
 
