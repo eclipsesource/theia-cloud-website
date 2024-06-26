@@ -25,6 +25,11 @@ subtitle = "Theia Cloud<br/><span style=\"font-size: 0.65em; color: lightgrey\">
   color = "primary"
 
 [[buttons]]
+  text = "Gallery"
+  url = "/gallery"
+  color = "primary"
+
+[[buttons]]
   text = "Try now"
   url = "https://try.theia-cloud.io/"
   color = "primary"
