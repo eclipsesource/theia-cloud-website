@@ -129,7 +129,7 @@ demoApplication:
 
 hosts:
   usePaths: true
-  paths:
+  configuration:
     baseHost: 12.345.67.89.sslip.io
 
 keycloak:
@@ -141,6 +141,7 @@ operator:
 ingress:
   clusterIssuer: letsencrypt-prod
   theiaCloudCommonName: false
+  addTLSSecretName: false
 
 operatorrole:
   name: operator-api-access
@@ -153,7 +154,7 @@ Customization Instructions:
 
 - `app.id`: Generate a unique string for `app.id`. This identifier is public, so don't reuse a secret.
 - Image Configuration: `demoApplication.name` allows you to specify a custom Docker image for Theia. Use `demoApplication.timeout` to define the session timeout, after which the application will automatically shut down.
-- Host Configuration: The `hosts.paths.baseHost` value has to be set to the hostname you want to use. An easy way to get started could be the public IP of your ingress controller. For example you may get this with:
+- Host Configuration: The `hosts.configuration.baseHost` value has to be set to the hostname you want to use. An easy way to get started could be the public IP of your ingress controller. For example you may get this with:
 
 ```sh
 kubectl -n ingress-nginx get service ingress-nginx-controller -o yaml
