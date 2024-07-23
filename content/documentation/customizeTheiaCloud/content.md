@@ -18,7 +18,7 @@ As a result, providing a fully white-labeled dashboard often does not meet all t
 Therefore, Theia Cloud focuses on providing TypeScript APIs and libraries that allow users to easily interact with Theia Cloud Services.
 This approach enables users to create their own landing page or to integrate Theia Cloud in existing web applications.
 
-To get started or for demonstration purposes, you may want to explore [our sample landing page](https://github.com/eclipsesource/theia-cloud/tree/main/node/try-now-page).
+To get started or for demonstration purposes, you may want to explore [our sample landing page](https://github.com/eclipsesource/theia-cloud/tree/main/node/landing-page).
 
 ### Simple Customizations
 
@@ -42,7 +42,7 @@ landingPage:
 
 Additionally, the SVG image displayed on the try-now page can be changed via the `landingPage.logoData` property. This property expects a base64 encoded SVG image. For example, you can encode an SVG to base64 using `cat path/to/file.svg | base64 -w 0 -`.
 
-If you want to make small changes to the wording, please check out the repository ([try now page](https://github.com/eclipsesource/theia-cloud/tree/main/node/try-now-page), [components](https://github.com/eclipsesource/theia-cloud/tree/main/node/try-now-page/src/components)).
+If you want to make small changes to the wording, please check out the repository ([try now page](https://github.com/eclipsesource/theia-cloud/tree/main/node/landing-page), [components](https://github.com/eclipsesource/theia-cloud/tree/main/node/landing-page/src/components)).
 Instructions for containerizing the web site can be foud [here](https://github.com/eclipsesource/theia-cloud/blob/main/documentation/Building.md).
 The custom image can be specified as `landingPage.image`.
 
