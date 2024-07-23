@@ -25,7 +25,7 @@ It offers to provide environment variables directly or as lists of [config maps]
 The following code snippet shows how to add environment variables while starting a session.
 Thereby, the whole `env` as well as its three properties `fromMap`, `fromConfigMaps` and `fromSecrets` are optional.
 The snippet assumes that the parameters `accessToken` and `user` are present as variables based on the authenticated user.
-You can have a look at the [Try Now Page](https://github.com/eclipsesource/theia-cloud/blob/main/node/try-now-page/src/App.tsx) to see an example of how these are derived when logging in via Keycloak.
+You can have a look at the [Try Now Page](https://github.com/eclipsesource/theia-cloud/blob/main/node/landing-page/src/App.tsx) to see an example of how these are derived when logging in via Keycloak.
 
 ```typescript
 import {
@@ -115,7 +115,7 @@ The key components of this pattern are:
 
 Our default installation includes basic support for Let's Encrypt certificates.
 However, more advanced use cases, such as wildcard certificates, require specific configuration allowing the cert-manager to update DNS entries (see [here](https://cert-manager.io/docs/configuration/acme/dns01/)) to obtain valid certificates from Let's Encrypt.
-To support this, you can create your own cluster issuer and pass the name to Theia Cloud using the [`ingress.clusterIssuer` helm value](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia.cloud#readme).
+To support this, you can create your own cluster issuer and pass the name to Theia Cloud using the [`ingress.clusterIssuer` helm value](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia-cloud#readme).
 
 In a production environment, you often have existing certificates you want to use.
 For this, we have the `ingress.certManagerAnnotations` helm value, which can be set to `false` to avoid adding any cert-manager-related annotations on the ingress.
