@@ -52,7 +52,7 @@ _Please note that it is possible to integrate any OAuth2 provider with Theia Clo
 
 ## Theia Cloud Helm Charts
 
-Theia Cloud offers three Helm charts that are available via the Helm repository hosted at <https://github.eclipsesource.com/theia-cloud-helm/>.
+Theia Cloud offers three Helm charts that are available via the Helm repository hosted at <https://eclipse-theia.github.io/theia-cloud-helm/>.
 These charts are designed to provide a flexible and customizable deployment of Theia Cloud on Kubernetes clusters.
 The available charts are:
 
@@ -63,7 +63,7 @@ The available charts are:
 To add the Theia Cloud Helm repository for access to these charts, use the following command:
 
 ```sh
-helm repo add theia-cloud-repo https://github.eclipsesource.com/theia-cloud-helm
+helm repo add theia-cloud-repo https://eclipse-theia.github.io/theia-cloud-helm/
 ```
 
 If you have previously added this repository, ensure you have the latest charts by updating the repository:
@@ -71,6 +71,8 @@ If you have previously added this repository, ensure you have the latest charts 
 ```sh
 helm repo update
 ```
+
+_Note:_ You might have added the repository with the old url (https://github.eclipsesource.com/theia-cloud-helm) before. If this is the case, please remove the old repo and re-add it with the new url above.
 
 We aim to make the contents of these charts as customizable as possible.
 This includes providing options to skip any optional resources during installation.
