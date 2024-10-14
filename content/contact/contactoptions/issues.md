@@ -7,4 +7,4 @@ weight = 50
   url = ""
 +++
 
-Please use our [GitHub repository](https://github.com/eclipsesource/theia-cloud) to report features requests and bugs.
+Please use our [GitHub repository](https://github.com/eclipse-theia/theia-cloud) to report features requests and bugs.

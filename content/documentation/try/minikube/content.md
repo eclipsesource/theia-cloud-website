@@ -51,7 +51,7 @@ You can download and install Terraform as described here: <https://developer.has
 Finally, please check out our git repository. The repository contains the terraform configuration files used in this guide.
 
 ```bash
-git clone https://github.com/eclipsesource/theia-cloud.git
+git clone https://github.com/eclipse-theia/theia-cloud.git
 ```
 
 #### Run the Getting Started Guide

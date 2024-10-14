@@ -25,7 +25,7 @@ It offers to provide environment variables directly or as lists of [config maps]
 The following code snippet shows how to add environment variables while starting a session.
 Thereby, the whole `env` as well as its three properties `fromMap`, `fromConfigMaps` and `fromSecrets` are optional.
 The snippet assumes that the parameters `accessToken` and `user` are present as variables based on the authenticated user.
-You can have a look at the [Try Now Page](https://github.com/eclipsesource/theia-cloud/blob/main/node/landing-page/src/App.tsx) to see an example of how these are derived when logging in via Keycloak.
+You can have a look at the [Try Now Page](https://github.com/eclipse-theia/theia-cloud/blob/main/node/landing-page/src/App.tsx) to see an example of how these are derived when logging in via Keycloak.
 
 ```typescript
 import {
@@ -62,11 +62,11 @@ TheiaCloud.Session.startSession(request);
 
 The environment variables can also be configured directly through the Session custom resource by adding one or multiple of the following properties:
 
-- [envVars](https://github.com/eclipsesource/theia-cloud-helm/blob/4cd9d98d30cebe8d31e7084369878c1c2d28776c/charts/theia-cloud-crds/templates/session-spec-resource.yaml#L46-L49): This property is a map that allows you to define environment variables directly. Each entry in the map consists of the environment variable name and its value. This method is suitable for standard configuration needs and facilitates individual configuration for each session.
+- [envVars](https://github.com/eclipse-theia/theia-cloud-helm/blob/4cd9d98d30cebe8d31e7084369878c1c2d28776c/charts/theia-cloud-crds/templates/session-spec-resource.yaml#L46-L49): This property is a map that allows you to define environment variables directly. Each entry in the map consists of the environment variable name and its value. This method is suitable for standard configuration needs and facilitates individual configuration for each session.
 
-- [envVarsFromConfigMaps](https://github.com/eclipsesource/theia-cloud-helm/blob/4cd9d98d30cebe8d31e7084369878c1c2d28776c/charts/theia-cloud-crds/templates/session-spec-resource.yaml#L50-L53): For environment variables that need to be sourced from existing Kubernetes config maps, this property allows you to specify a list of config maps from which to read. This approach is particularly useful for sharing common configuration across multiple sessions or applications.
+- [envVarsFromConfigMaps](https://github.com/eclipse-theia/theia-cloud-helm/blob/4cd9d98d30cebe8d31e7084369878c1c2d28776c/charts/theia-cloud-crds/templates/session-spec-resource.yaml#L50-L53): For environment variables that need to be sourced from existing Kubernetes config maps, this property allows you to specify a list of config maps from which to read. This approach is particularly useful for sharing common configuration across multiple sessions or applications.
 
-- [envVarsFromSecrets](https://github.com/eclipsesource/theia-cloud-helm/blob/4cd9d98d30cebe8d31e7084369878c1c2d28776c/charts/theia-cloud-crds/templates/session-spec-resource.yaml#L54-L57): Similar to `envVarsFromConfigMaps`, this property lets you define a list of Kubernetes secrets from which to read environment variables. This method is a good fit for sensitive information such as credentials, ensuring that such details are managed securely and in accordance with Kubernetes best practices.
+- [envVarsFromSecrets](https://github.com/eclipse-theia/theia-cloud-helm/blob/4cd9d98d30cebe8d31e7084369878c1c2d28776c/charts/theia-cloud-crds/templates/session-spec-resource.yaml#L54-L57): Similar to `envVarsFromConfigMaps`, this property lets you define a list of Kubernetes secrets from which to read environment variables. This method is a good fit for sensitive information such as credentials, ensuring that such details are managed securely and in accordance with Kubernetes best practices.
 
 #### Accessing environment variables in Theia
 
@@ -115,7 +115,7 @@ The key components of this pattern are:
 
 Our default installation includes basic support for Let's Encrypt certificates.
 However, more advanced use cases, such as wildcard certificates, require specific configuration allowing the cert-manager to update DNS entries (see [here](https://cert-manager.io/docs/configuration/acme/dns01/)) to obtain valid certificates from Let's Encrypt.
-To support this, you can create your own cluster issuer and pass the name to Theia Cloud using the [`ingress.clusterIssuer` helm value](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia-cloud#readme).
+To support this, you can create your own cluster issuer and pass the name to Theia Cloud using the [`ingress.clusterIssuer` helm value](https://github.com/eclipse-theia/theia-cloud-helm/tree/main/charts/theia-cloud#readme).
 
 In a production environment, you often have existing certificates you want to use.
 For this, we have the `ingress.certManagerAnnotations` helm value, which can be set to `false` to avoid adding any cert-manager-related annotations on the ingress.

@@ -8,10 +8,10 @@ background = "white"
 
 <img src="../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
 
-The release notes for Theia Cloud are available on [Github](https://github.com/eclipsesource/theia-cloud/releases).\
+The release notes for Theia Cloud are available on [Github](https://github.com/eclipse-theia/theia-cloud/releases).\
 There you can find detailed information about our new releases, changelogs, and breaking changes.
 
-To get notified about new releases, please [watch us on Github](https://github.com/eclipsesource/theia-cloud/).
+To get notified about new releases, please [watch us on Github](https://github.com/eclipse-theia/theia-cloud/).
 
 ### Available Resources
 
