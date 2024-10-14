@@ -21,7 +21,7 @@ Theia Cloud depends on well-established software in the Kubernetes ecosystem.
 We won't go into full detail explaining how to install each dependency but will provide links to their official documentation.
 
 Please note that our [Try Theia Cloud]({{< relref "tryTheiaCloud" >}}) guides use Terraform charts that will install all requirements automatically.
-Please have a look at their [Helm configuration](https://github.com/eclipsesource/theia-cloud/blob/main/terraform/modules/helm/main.tf) to find the values used in the getting started guides.
+Please have a look at their [Helm configuration](https://github.com/eclipse-theia/theia-cloud/blob/main/terraform/modules/helm/main.tf) to find the values used in the getting started guides.
 
 ### cert-manager.io
 
@@ -78,7 +78,7 @@ We aim to make the contents of these charts as customizable as possible.
 This includes providing options to skip any optional resources during installation.
 This guide provides an overview of each Helm chart along with sample configurations.
 For comprehensive configuration options, refer to the linked documentation within each section.
-Additionally, explore our [Terraform configurations](https://github.com/eclipsesource/theia-cloud/tree/main/terraform/configurations) for complete Theia Cloud setups on various cluster providers, including GKE and Minikube.
+Additionally, explore our [Terraform configurations](https://github.com/eclipse-theia/theia-cloud/tree/main/terraform/configurations) for complete Theia Cloud setups on various cluster providers, including GKE and Minikube.
 For early access to customization options, new terraform examples, or if you require specific changes, please consult our [support options]({{< relref "/support" >}}).
 
 ### theia-cloud-base
@@ -99,7 +99,7 @@ Install the chart using:
 helm install my-theia-cloud-base theia-cloud-repo/theia-cloud-base -f base-values.yaml
 ```
 
-For a full list of customizable values, visit [theia-cloud-base chart documentation](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia-cloud-base/README.md).
+For a full list of customizable values, visit [theia-cloud-base chart documentation](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/charts/theia-cloud-base/README.md).
 
 ### theia-cloud-crds
 
@@ -113,7 +113,7 @@ kubectl create namespace my-namespace
 helm -n my-namespace install my-theia-cloud-crds theia-cloud-repo/theia-cloud-crds
 ```
 
-Refer to [theia-cloud-crds chart documentation](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia-cloud-crds/README.md) for customization details.
+Refer to [theia-cloud-crds chart documentation](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/charts/theia-cloud-crds/README.md) for customization details.
 
 ### theia-cloud
 
@@ -175,8 +175,8 @@ status:
 minikube ip
 ```
 
-- Keycloak Integration: By setting `keycloak.enable` to `false`, you opt out of Keycloak integration. If you wish to utilize Keycloak for authentication, further configuration will be necessary. Please check out the options [here](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia-cloud/README.md) to learn about all Keycloak options.\
-  For configuring Keycloak itself please have a look at the [oauth2-proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/keycloak_oidc) and our [terraform Keycloak Example Realm configuration](https://github.com/eclipsesource/theia-cloud/blob/main/terraform/modules/keycloak/main.tf).
+- Keycloak Integration: By setting `keycloak.enable` to `false`, you opt out of Keycloak integration. If you wish to utilize Keycloak for authentication, further configuration will be necessary. Please check out the options [here](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/charts/theia-cloud/README.md) to learn about all Keycloak options.\
+  For configuring Keycloak itself please have a look at the [oauth2-proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/keycloak_oidc) and our [terraform Keycloak Example Realm configuration](https://github.com/eclipse-theia/theia-cloud/blob/main/terraform/modules/keycloak/main.tf).
 - Cloud Provider Configuration: Adjust `operator.cloudProvider` to `MINIKUBE` if running on Minikube or leave the current value `K8S` for other clusters.
 - Ingress and Security: `ingress.clusterIssuer` may have to be adjusted if a different issuer than the Let's encrypt issuer should be used or if it was installed with a different name. `ingress.theiaCloudCommonName` may have to be adjusted if the certificate created by the issuer misses the common name property.
 - Roles Configuration: `operatorrole` and `servicerole` names might need adjustments if you adjusted the name during the base chart installation
@@ -189,7 +189,7 @@ helm -n my-namespace install my-theia-cloud theia-cloud-repo/theia-cloud -f valu
 
 This setup enables access to the Theia Cloud sample landing page at <https://12.345.67.89.sslip.io/trynow/>.
 
-For detailed installation instructions and customization options, visit [the main Theia Cloud chart documentation](https://github.com/eclipsesource/theia-cloud-helm/blob/main/charts/theia-cloud/README.md).
+For detailed installation instructions and customization options, visit [the main Theia Cloud chart documentation](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/charts/theia-cloud/README.md).
 
 <img src="../../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
 
@@ -199,7 +199,7 @@ This section explains how to update your Theia Cloud deployment.
 This includes updating values as well as upgrading to a new Theia Cloud version.
 Similar to the installation, Helm is used for this.
 
-Before moving to a new Theia Cloud version, you might want to have a look at the [Theia Cloud Helm changelog](https://github.com/eclipsesource/theia-cloud-helm/blob/main/CHANGELOG.md). If you customized core components (e.g. the operator), you also might want to look at [Theia Cloud's code changelog](https://github.com/eclipsesource/theia-cloud/blob/main/CHANGELOG.md).
+Before moving to a new Theia Cloud version, you might want to have a look at the [Theia Cloud Helm changelog](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/CHANGELOG.md). If you customized core components (e.g. the operator), you also might want to look at [Theia Cloud's code changelog](https://github.com/eclipse-theia/theia-cloud/blob/main/CHANGELOG.md).
 
 Make sure you have the Theia Cloud helm charts available and updated as described in section [Theia Cloud Helm Charts](#theia-cloud-helm-charts).
 In short:

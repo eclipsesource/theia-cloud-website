@@ -136,7 +136,7 @@ To include it in your application, simply add `@eclipse-theiacloud/monitor-theia
 
 ```
 
-For an example of how to implement this, consider our [test sample application](https://github.com/eclipsesource/theia-cloud/tree/main/demo/dockerfiles/demo-theia-monitor-theia).
+For an example of how to implement this, consider our [test sample application](https://github.com/eclipse-theia/theia-cloud/tree/main/demo/dockerfiles/demo-theia-monitor-theia).
 
 ### VS Code Extension
 
@@ -144,7 +144,7 @@ Alternatively, you may opt for the Theia Cloud Monitor VS Code extension.
 This extension relies on the VSCode API for activity detection, which may not be as effective as the Theia Extension method.
 Therefore, we recommend using the Theia Extension over the VS Code extension.
 The `*.vsix` file for this extension can be downloaded from our GitHub Releases page.
-For instance, for release 0.9.0, the extension is available [here](https://github.com/eclipsesource/theia-cloud/releases/download/0.9.0/theiacloud-monitor-0.9.0.vsix).
+For instance, for release 0.9.0, the extension is available [here](https://github.com/eclipse-theia/theia-cloud/releases/download/0.9.0/theiacloud-monitor-0.9.0.vsix).
 
 <img src="../../images/logo.png" alt="Theia Cloud Logo" width="100" style="display: block; margin: auto;" />
 
@@ -200,7 +200,7 @@ spec:
 
 - **`port`**: The port on which Theia runs.
 
-- **`ingressname`**: Defines the ingress resource to be patched for exposing new application sessions. Typically, this should match the `ingress.instanceName` used during the `theia-cloud` helm chart installation. For the default value, see [theia-cloud helm chart details](https://github.com/eclipsesource/theia-cloud-helm/tree/main/charts/theia-cloud).
+- **`ingressname`**: Defines the ingress resource to be patched for exposing new application sessions. Typically, this should match the `ingress.instanceName` used during the `theia-cloud` helm chart installation. For the default value, see [theia-cloud helm chart details](https://github.com/eclipse-theia/theia-cloud-helm/tree/main/charts/theia-cloud).
 
 - **`minInstances`**: Currently, this should be 0. Future versions may support pre-launching sessions for incoming users. _If you need this feature earlier, explore our [support options]({{< relref "/support" >}})._
 

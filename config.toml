@@ -83,7 +83,7 @@ lastmod = ["lastmod", ":git", "date"]
   weight = 60
 
 [[menu.main]]
-  url = "https://github.com/eclipsesource/theia-cloud"
+  url = "https://github.com/eclipse-theia/theia-cloud"
   name = "GitHub"
   weight = 60
 
@@ -142,10 +142,10 @@ lastmod = ["lastmod", ":git", "date"]
   weight = 30
   name = "github"
   pre = "fab fa-github"
-  url = "https://github.com/eclipsesource/theia-cloud"
+  url = "https://github.com/eclipse-theia/theia-cloud"
 
 [[menu.footer_social]]
   weight = 30
   name = "github-discussions"
   pre = "far fa-comments"
-  url = "https://github.com/eclipsesource/theia-cloud/discussions"
+  url = "https://github.com/eclipse-theia/theia-cloud/discussions"
