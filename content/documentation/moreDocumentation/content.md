@@ -156,3 +156,61 @@ with the following value:
 
 Follow the instructions until you receive your certificates.
 Remember to remove the TXT records after your certificate has been issued.
+
+## Logout
+
+In Theia Cloud, logging out properly involves a sequential logout from both Keycloak and the [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/) that protects the session pods.
+
+The primary login is handled by Keycloak, and the OAuth2 Proxy verifies the user session against Keycloak, setting a separate authentication cookie.
+To fully log out, users must not only log out of Keycloak but also clear the OAuth2 Proxy authentication cookie. This requires a logout from both services.
+
+To simplify this process, you can clear both login tokens with a single link by first redirecting the user to the OAuth2 Proxy logout URL, which will then redirect them to the Keycloak logout URL.
+After the logout from Keycloak, the user is redirected back to the landing page.
+
+### Constructing the logout URL
+
+Each Theia session has its own OAuth2 Proxy instance. The OAuth2 Proxy logout URL is available at the subpath `./oauth2/sign_out` of the user's session URL.
+Therefore, in this guide, we assume that the logout action is initiated from within the session pod (i.e., from the running Theia instance).
+
+To construct the complete logout URL, use the Keycloak logout URL as the `rd` (redirect) parameter of the OAuth2 Proxy logout URL. Then, specify the landing page URL as the `post_logout_redirect_uri` in the Keycloak logout URL.
+
+#### Example Scenario
+
+Let's assume the following URLs for a typical Theia Cloud deployment:
+
+- **Landing page**: `https://example.com/start`
+- **Sessions base**: `https://example.com/instances`
+- **Sample session**: `https://example.com/instances/34d121da-ffc1-480c-a89b-f6d259c6df9f`
+- **Keycloak**: `https://example.com/keycloak`
+
+Furthermore, assume that Keycloak uses the `TheiaCloud` realm for managing Theia Cloud users.
+
+#### Example JavaScript Code for Logout URL Construction
+
+Because query parameters must be URL-encoded, both the Keycloak URL and the landing page URL need to be encoded.
+You can use JavaScript's [encodeURIComponent](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) method to handle the encoding.
+Note that `encodeURI` is not appropriate here because we're encoding the URLs as query parameters.
+
+Here’s how you can construct the logout URL for the example deployment:
+
+```js
+// Encode the landing page URL to use as a query parameter
+const encodedLandingPageUrl = encodeURIComponent("https://example.com/start");
+
+// Encode the Keycloak logout URL, which includes the landing page URL as a redirect.
+// This results in the landing page URL being double-encoded, which is intentional.
+const encodedKeycloakUrl = encodeURIComponent(
+  `https://example.com/keycloak/realms/TheiaCloud/protocol/openid-connect/logout?client_id=theia-cloud&post_logout_redirect_uri=${encodedLandingPageUrl}`
+);
+
+// Relative logout URL to be used from within the Theia IDE session.
+// Assign the encoded Keycloak logout url to the `rd` query parameter
+const logoutUrl = `./oauth2/sign_out?rd=${encodedKeycloakUrl}`;
+```
+
+### Additional Resources
+
+For more information on the relevant logout endpoints, refer to the following resources:
+
+- [OAuth2 Proxy Logout Endpoint Documentation](https://oauth2-proxy.github.io/oauth2-proxy/features/endpoints#sign-out)
+- [Keycloak OpenID Connect Logout Endpoint Documentation](https://www.keycloak.org/docs/latest/securing_apps/#logout-endpoint)
