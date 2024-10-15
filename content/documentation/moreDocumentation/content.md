@@ -213,4 +213,4 @@ const logoutUrl = `./oauth2/sign_out?rd=${encodedKeycloakUrl}`;
 For more information on the relevant logout endpoints, refer to the following resources:
 
 - [OAuth2 Proxy Logout Endpoint Documentation](https://oauth2-proxy.github.io/oauth2-proxy/features/endpoints#sign-out)
-- [Keycloak OpenID Connect Logout Endpoint Documentation](https://www.keycloak.org/docs/latest/securing_apps/#logout-endpoint)
+- [Keycloak OpenID Connect Logout Endpoint Documentation](https://www.keycloak.org/securing-apps/oidc-layers#_endpoints)
