@@ -34,9 +34,11 @@ We suggest installing the cert-manager using [the official Helm chart](https://c
 
 ### ingress-nginx
 
-By default, the ingresses installed with the Theia Cloud Helm charts and created by the Theia Cloud operator use the [Ingress NGINX Controller](https://kubernetes.github.io/ingress-nginx/).
+By default, the ingresses are installed via the Theia Cloud Helm charts and created by the Theia Cloud operator using the [Ingress NGINX Controller](https://kubernetes.github.io/ingress-nginx/).
 
 You can find the official deployment instructions [here](https://kubernetes.github.io/ingress-nginx/deploy/).
+
+**Note:** Since `ingress-nginx` version 1.10 , the annotation `nginx.ingress.kubernetes.io/configuration-snippet` is disabled by default and needs to be enabled. To enable this option, you need to set the flag `allow-snippet-annotations: "true"` in the ingress-nginx values. For example, via the `ingress-nginx-controller`s config-map. For more information see the [documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/)
 
 _Please note that it is possible to integrate other types of ingresses into Theia Cloud as well, and this is part of our roadmap. We do not offer documentation and finalized APIs for this yet, however. If you need this feature sooner, please see our [available support options]({{< relref "/support" >}})._
 
