@@ -208,7 +208,7 @@ In short:
 
 ```bash
 # First time only
-helm repo add theia-cloud-repo https://github.eclipsesource.com/theia-cloud-helm
+helm repo add theia-cloud-repo https://eclipse-theia.github.io/theia-cloud-helm
 
 # Update the helm repo
 helm repo update
