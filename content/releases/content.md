@@ -17,10 +17,10 @@ To get notified about new releases, please [watch us on Github](https://github.c
 
 Theia Cloud releases are made available through several channels:
 
-- **Helm Charts**: Access our releases via our [Helm Chart Repository](https://github.eclipsesource.com/theia-cloud-helm).
+- **Helm Charts**: Access our releases via our [Helm Chart Repository](https://eclipse-theia.github.io/theia-cloud-helm).
 - **Docker Hub**: Find our Docker images on [Docker Hub](https://hub.docker.com/u/theiacloud).
 - **NPM Registry**: Packages are also available in the [npm registry](https://www.npmjs.com/org/eclipse-theiacloud).
-- **Github Maven Repository**: The Theia Cloud Operator Libary can be found in the Github [maven repository](https://github.com/orgs/eclipsesource/packages?repo_name=theia-cloud).
+- **Github Maven Repository**: The Theia Cloud Operator Libary can be found in the Github [maven repository](https://github.com/orgs/eclipse-theia/packages?repo_name=theia-cloud).
 
 ### Installation and Setup
 

@@ -126,9 +126,9 @@ The landing page will use the certificate from a secret called `landing-page-cer
 You can then import your certificates as described in the [Kubernetes documentation](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_tls/), e.g.
 
 ```sh
-kubectl -n theiacloud create secret tls service-cert-secret --cert=/home/user/certificate/service3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/service3.my-theia-cloud.io/privkey1.pem
-kubectl -n theiacloud create secret tls landing-page-cert-secret --cert=/home/user/certificate/landing3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/landing3.my-theia-cloud.io/privkey1.pem
-kubectl -n theiacloud create secret tls ws-cert-secret --cert=/home/user/certificate/webview.ws3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/webview.ws3.my-theia-cloud.io/privkey1.pem
+kubectl -n theia-cloud create secret tls service-cert-secret --cert=/home/user/certificate/service3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/service3.my-theia-cloud.io/privkey1.pem
+kubectl -n theia-cloud create secret tls landing-page-cert-secret --cert=/home/user/certificate/landing3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/landing3.my-theia-cloud.io/privkey1.pem
+kubectl -n theia-cloud create secret tls ws-cert-secret --cert=/home/user/certificate/webview.ws3.my-theia-cloud.io/fullchain1.pem --key=/home/user/certificate/webview.ws3.my-theia-cloud.io/privkey1.pem
 ```
 
 #### Manual Wild Card Certificates using Let's Encrypt
