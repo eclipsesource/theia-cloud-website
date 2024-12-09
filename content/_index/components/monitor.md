@@ -7,6 +7,5 @@ weight = 30
 +++
 
 <p style="margin-left: 5px; margin-right: 5px; text-align: justify">
-To integrate Theia Cloud into the devops processes of your corporate infrastructure,
-the Theia Cloud monitor is watching the running application sessions.
+The monitoring component is an extensible module that integrates monitoring into your deployment, tracking user activity in workspaces and shutting down idle workspaces after a configurable timeout. Its flexible design allows developers to extend and customize it for specific needs.
 </p>
