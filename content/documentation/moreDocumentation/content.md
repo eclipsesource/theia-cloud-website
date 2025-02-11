@@ -214,3 +214,13 @@ For more information on the relevant logout endpoints, refer to the following re
 
 - [OAuth2 Proxy Logout Endpoint Documentation](https://oauth2-proxy.github.io/oauth2-proxy/features/endpoints#sign-out)
 - [Keycloak OpenID Connect Logout Endpoint Documentation](https://www.keycloak.org/securing-apps/oidc-layers#_endpoints)
+
+## Admin Users
+
+The REST service offers endpoints only accessible to admin users.
+They are grouped under the `service/admin` path.
+
+By default, an admin user is identified by the presence of the group `theia-cloud/admin` in the groups claim (of the Microprofile JWT standard) of the user's OIDC token.
+The claim needs to be provided by the OIDC provider, i.e. Keycloak.
+Using Keycloak, this can be done by using a mapper to map Keycloak's user groups to the `groups` claim in the `theia-cloud` client.
+Theia Cloud's terraform Keycloak module pre-configures this already.
