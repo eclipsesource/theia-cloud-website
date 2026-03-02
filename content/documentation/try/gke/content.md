@@ -31,7 +31,7 @@ You can download and install Terraform as described here: <https://developer.has
 We expect users to have basic experience with GKE: <https://cloud.google.com/kubernetes-engine>.
 You may want to check their guides as a new user first: <https://cloud.google.com/kubernetes-engine/docs/deploy-app-cluster>
 
-Please note that using our configurations may cause you cost depending ob whether the free credit provided for new GKE users was used up already.
+Please note that using our configurations may cause you cost depending on whether the free credit provided for new GKE users was used up already.
 
 Our terraform modules expect you to have the Google Cloud SDK installed and set up: <https://cloud.google.com/sdk>
 
@@ -64,12 +64,18 @@ terraform init
 terraform apply
 ```
 
+_By default, HAProxy is used as the ingress controller. To use the legacy nginx controller instead, pass the `ingress_controller_type` variable:_
+
+```bash
+terraform apply -var="ingress_controller_type=nginx"
+```
+
 This will now run for a few minutes. During this time it will
 
 - Create a GKE cluster named `gke-theia-cloud-getting-started`
 - Install a number of tools in the cluster using helm
   - cert-manager for managing Certificates
-  - nginx-ingress-controller for exposing HTTP(S) routes via NginX
+  - an ingress controller for exposing HTTP(S) routes (HAProxy by default; nginx is also supported)
   - Keycloak for managing authentication
   - Theia Cloud
 - Creates a few default users on Keycloak

@@ -71,12 +71,18 @@ terraform init
 terraform apply
 ```
 
+_By default, HAProxy is used as the ingress controller. To use the legacy nginx controller instead, pass the `ingress_controller_type` variable:_
+
+```bash
+terraform apply -var="ingress_controller_type=nginx"
+```
+
 This will now run for a few minutes. During this time it will
 
 - Create a Virtualbox VM running the Kubernetes Cluster
 - Install a number of tools in the cluster using helm
   - cert-manager for managing Certificates
-  - nginx-ingress-controller for exposing HTTP(S) routes via NginX
+  - an ingress controller for exposing HTTP(S) routes (HAProxy by default; nginx is also supported)
   - keycloak for managing authentication
   - Theia Cloud
 - Creates a few default users on Keycloak
