@@ -32,15 +32,44 @@ You may use your existing cluster issuers as well!
 
 We suggest installing the cert-manager using [the official Helm chart](https://cert-manager.io/docs/installation/helm/).
 
-### ingress-nginx
+### Ingress Controller
 
-By default, the ingresses are installed via the Theia Cloud Helm charts and created by the Theia Cloud operator using the [Ingress NGINX Controller](https://kubernetes.github.io/ingress-nginx/).
+Theia Cloud supports two ingress controllers: [HAProxy Ingress](https://haproxy-ingress.github.io/) (default since 1.2) and [Ingress NGINX](https://kubernetes.github.io/ingress-nginx/) (legacy; default until including 1.1). The nginx ingress controller is [being retired upstream](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/), so we recommend HAProxy for new installations.
 
-You can find the official deployment instructions [here](https://kubernetes.github.io/ingress-nginx/deploy/).
+You can configure the controller via the `ingress.controller` value in the `theia-cloud` Helm chart.
 
-**Note:** Since `ingress-nginx` version 1.10 , the annotation `nginx.ingress.kubernetes.io/configuration-snippet` is disabled by default and needs to be enabled. To enable this option, set the `allow-snippet-annotations: "true"` flag in the ingress-nginx values. For example, via the `ingress-nginx-controller`s config-map. For more information see the [documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/)
+#### HAProxy
 
-_Please note that it is possible to integrate other types of ingresses into Theia Cloud as well, and this is part of our roadmap. We do not offer documentation and finalized APIs for this yet, however. If you need this feature sooner, please see our [available support options]({{< relref "/support" >}})._
+The [HAProxy Ingress Controller](https://haproxy-ingress.github.io/) is the default ingress controller for Theia Cloud.
+
+It can be installed using the official Helm chart. The installation instructions are available in the official documentation:
+[https://haproxy-ingress.github.io/docs/getting-started/#installation](https://haproxy-ingress.github.io/docs/getting-started/#installation)
+
+Example:
+
+```sh
+helm repo add haproxy-ingress https://haproxy-ingress.github.io/charts
+helm repo update
+helm install haproxy-ingress haproxy-ingress/haproxy-ingress \
+  --version 0.15.1 \
+  --namespace ingress-haproxy \
+  --create-namespace \
+  --set controller.ingressClassResource.enabled=true
+```
+
+For further details, see the official HAProxy Ingress documentation:
+[https://haproxy-ingress.github.io/docs/](https://haproxy-ingress.github.io/docs/)
+
+#### nginx
+
+The [Ingress NGINX Controller](https://kubernetes.github.io/ingress-nginx/) is still supported, but is [being retired upstream](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/). For new installations, we recommend using HAProxy.
+
+The official deployment instructions are available here:
+[https://kubernetes.github.io/ingress-nginx/deploy/](https://kubernetes.github.io/ingress-nginx/deploy/)
+
+**Note:** Since `ingress-nginx` version 1.10, the annotation `nginx.ingress.kubernetes.io/configuration-snippet` is disabled by default and needs to be enabled. To enable this option, set the `allow-snippet-annotations: "true"` flag in the ingress-nginx values. For example, via the `ingress-nginx-controller`s config-map. For more information see the [documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/).
+
+_Please note that it is possible to integrate other ingress controllers with Theia Cloud. We currently do not provide documentation for this. If you require a different ingress controller, please refer to our [available support options]({{< relref "/support" >}})._
 
 ### Keycloak (optional)
 
@@ -143,6 +172,7 @@ operator:
   cloudProvider: "K8S"
 
 ingress:
+  controller: haproxy # or "nginx" (legacy)
   clusterIssuer: letsencrypt-prod
   theiaCloudCommonName: false
   addTLSSecretName: false
@@ -161,6 +191,10 @@ Customization Instructions:
 - Host Configuration: The `hosts.configuration.baseHost` value has to be set to the hostname you want to use. An easy way to get started could be the public IP of your ingress controller. For example you may get this with:
 
 ```sh
+# For HAProxy:
+kubectl -n ingress-haproxy get service haproxy-ingress -o yaml
+
+# For nginx:
 kubectl -n ingress-nginx get service ingress-nginx-controller -o yaml
 ```
 
@@ -202,6 +236,8 @@ This includes updating values as well as upgrading to a new Theia Cloud version.
 Similar to the installation, Helm is used for this.
 
 Before moving to a new Theia Cloud version, you might want to have a look at the [Theia Cloud Helm changelog](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/CHANGELOG.md). If you customized core components (e.g. the operator), you also might want to look at [Theia Cloud's code changelog](https://github.com/eclipse-theia/theia-cloud/blob/main/CHANGELOG.md).
+
+**Upgrading to 1.2.0:** The nginx ingress path regex pattern changed from `($|(/.*))` to `(/|$)(.*)` and the `rewrite-target` annotation now uses `$1$2` instead of `$1`. This maintains the same functionality but users with custom nginx configurations relying on the capture group numbering may need to adjust. See the [changelog](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/CHANGELOG.md) for details.
 
 Make sure you have the Theia Cloud helm charts available and updated as described in section [Theia Cloud Helm Charts](#theia-cloud-helm-charts).
 In short:
