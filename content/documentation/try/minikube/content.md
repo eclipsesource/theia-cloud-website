@@ -56,25 +56,49 @@ git clone https://github.com/eclipse-theia/theia-cloud.git
 
 #### Run the Getting Started Guide
 
-Now, we may finally create our local cluster and install Theia Cloud including all of its dependencies. With our terraform configuration this may be done with just a few commands on the terminal:
+Now, we may finally create our local cluster and install Theia Cloud including all of its dependencies. The setup is split into two steps.
+
+##### Step 0: Create the Minikube Cluster
 
 ```bash
 # cd into the checked out theia-cloud directory, from there:
-cd terraform/configurations/minikube_getting_started/
+cd terraform/configurations/minikube_getting_started/0_minikube_getting_started
 
 # download required providers
 terraform init
 
 # create the cluster
-# You will be asked for an email address used by the cert-manager to contact you about expiring certs.
-# Enter yes at the end
 terraform apply
 ```
 
-_By default, HAProxy is used as the ingress controller. To use the legacy nginx controller instead, pass the `ingress_controller_type` variable:_
+_To use the legacy nginx controller instead of HAProxy, pass the `ingress_controller_type` variable:_
 
 ```bash
 terraform apply -var="ingress_controller_type=nginx"
+```
+
+##### Step 1: Install Theia Cloud and Dependencies
+
+By default, HAProxy is used as the ingress controller. HAProxy requires `minikube tunnel` to be running. Open a new terminal and start the tunnel before running step 1, and keep it running throughout the session:
+
+```bash
+minikube tunnel
+```
+
+_If you chose the nginx ingress controller in Step 0, `minikube tunnel` is not required._
+
+Then, in your original terminal:
+
+```bash
+cd ../1_theiacloud-and-dependencies
+
+# download required providers
+terraform init
+
+# install Theia Cloud and all dependencies
+# You will be asked for an email address used by the cert-manager to contact you about expiring certs.
+# Enter yes at the end
+terraform apply
 ```
 
 This will now run for a few minutes. During this time it will
@@ -99,9 +123,9 @@ Outputs:
 try_now = "https://192.168.59.105.nip.io/trynow/"
 ```
 
-Point your browser to the “try_now” URL and accept the self signed certificate.\
+Point your browser to the "try_now" URL and accept the self signed certificate.\
 This will then redirect you to Keycloak where you may login using one of the two users above.\
-After successful authentication a sample “Eclipse Theia IDE” will be launched for you.
+After successful authentication a sample "Eclipse Theia IDE" will be launched for you.
 
 #### Troubleshooting
 
@@ -109,7 +133,7 @@ This section covers common pitfalls that were reported to us.
 
 ##### How to use a Minikube driver other than Virtualbox
 
-In order to try a different driver than Virtualbox open `terraform/configurations/minikube_getting_started/minikube_getting_started.tf` and adjust
+In order to try a different driver than Virtualbox open `terraform/configurations/minikube_getting_started/0_minikube_getting_started/main.tf` and adjust
 
 ```bash
 driver       = "virtualbox"
