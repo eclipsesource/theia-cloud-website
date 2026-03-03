@@ -34,7 +34,7 @@ We suggest installing the cert-manager using [the official Helm chart](https://c
 
 ### Ingress Controller
 
-Theia Cloud supports two ingress controllers: [HAProxy Ingress](https://haproxy-ingress.github.io/) (default since 1.2) and [Ingress NGINX](https://kubernetes.github.io/ingress-nginx/) (legacy; default until including 1.1). The nginx ingress controller is [being retired upstream](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/), so we recommend HAProxy for new installations.
+Theia Cloud supports two ingress controllers: [HAProxy Ingress](https://haproxy-ingress.github.io/) (default since 1.2) and [Ingress NGINX](https://kubernetes.github.io/ingress-nginx/) (legacy; default until including 1.1). The nginx ingress controller is [being retired upstream](https://www.kubernetes.dev/blog/2025/11/12/ingress-nginx-retirement/), so we recommend HAProxy for new installations.
 
 You can configure the controller via the `ingress.controller` value in the `theia-cloud` Helm chart.
 
@@ -62,7 +62,7 @@ For further details, see the official HAProxy Ingress documentation:
 
 #### nginx
 
-The [Ingress NGINX Controller](https://kubernetes.github.io/ingress-nginx/) is still supported, but is [being retired upstream](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/). For new installations, we recommend using HAProxy.
+The [Ingress NGINX Controller](https://kubernetes.github.io/ingress-nginx/) is still supported, but is [being retired upstream](https://www.kubernetes.dev/blog/2025/11/12/ingress-nginx-retirement/). For new installations, we recommend using HAProxy.
 
 The official deployment instructions are available here:
 [https://kubernetes.github.io/ingress-nginx/deploy/](https://kubernetes.github.io/ingress-nginx/deploy/)
@@ -153,8 +153,10 @@ Begin by creating a `values.yaml` file with your desired configuration, e.g.:
 
 ```yaml
 app:
-  id: asdfghjkl
   name: My Theia
+
+service:
+  authToken: asdfghjkl
 
 demoApplication:
   name: theiacloud/theia-cloud-demo
@@ -186,7 +188,7 @@ servicerole:
 
 Customization Instructions:
 
-- `app.id`: Generate a unique string for `app.id`. This identifier is public, so don't reuse a secret.
+- `service.authToken`: Generate a unique string for `service.authToken`. This token is used in the communication between website and REST-API for spam mitigation. It is public, so don't reuse a secret. (Replaces the deprecated `app.id`.)
 - Image Configuration: `demoApplication.name` allows you to specify a custom Docker image for Theia. Use `demoApplication.timeout` to define the session timeout, after which the application will automatically shut down.
 - Host Configuration: The `hosts.configuration.baseHost` value has to be set to the hostname you want to use. An easy way to get started could be the public IP of your ingress controller. For example you may get this with:
 
@@ -237,7 +239,12 @@ Similar to the installation, Helm is used for this.
 
 Before moving to a new Theia Cloud version, you might want to have a look at the [Theia Cloud Helm changelog](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/CHANGELOG.md). If you customized core components (e.g. the operator), you also might want to look at [Theia Cloud's code changelog](https://github.com/eclipse-theia/theia-cloud/blob/main/CHANGELOG.md).
 
-**Upgrading to 1.2.0:** The nginx ingress path regex pattern changed from `($|(/.*))` to `(/|$)(.*)` and the `rewrite-target` annotation now uses `$1$2` instead of `$1`. This maintains the same functionality but users with custom nginx configurations relying on the capture group numbering may need to adjust. See the [changelog](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/CHANGELOG.md) for details.
+**Upgrading to 1.2.0:**
+- The default ingress controller changed from nginx to HAProxy. Existing deployments using nginx must explicitly set `ingress.controller: "nginx"` in their `theia-cloud` Helm values and `issuerprod.ingressClass: "nginx"` in their `theia-cloud-base` Helm values.
+- `app.id` is deprecated in favor of `service.authToken`. Custom landing pages or tooling referencing `appId` should be updated to use `serviceAuthToken`.
+- The nginx ingress path regex pattern changed from `($|(/.*))` to `(/|$)(.*)` and the `rewrite-target` annotation now uses `$1$2` instead of `$1`. This maintains the same functionality but users with custom nginx configurations relying on the capture group numbering may need to adjust.
+
+See the [changelog](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/CHANGELOG.md) for details.
 
 Make sure you have the Theia Cloud helm charts available and updated as described in section [Theia Cloud Helm Charts](#theia-cloud-helm-charts).
 In short:

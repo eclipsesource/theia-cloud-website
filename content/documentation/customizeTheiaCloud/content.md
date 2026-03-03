@@ -70,7 +70,7 @@ A simple use case to start a session with a workspace and automatic redirects lo
 ```ts
 import { LaunchRequest, TheiaCloud } from "@eclipse-theiacloud/common";
 
-const appId = "asdfghjkl"; // the app.id value used when installing the theia-cloud helm chart
+const serviceAuthToken = "asdfghjkl"; // the service.authToken value used when installing the theia-cloud helm chart
 const theiaCloudServiceURL = "https://service.my-domain.io"; // the URL of the rest service
 const appDefinition = "theia-cloud-demo"; // which app to start
 const timeout = 5;
@@ -79,7 +79,7 @@ const workspaceName = "my-workspace";
 TheiaCloud.launchAndRedirect(
   LaunchRequest.createWorkspace(
     theiaCloudServiceURL,
-    appId,
+    serviceAuthToken,
     appDefinition,
     timeout,
     userEmail,
