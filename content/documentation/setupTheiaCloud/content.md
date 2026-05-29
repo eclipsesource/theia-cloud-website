@@ -21,7 +21,7 @@ Theia Cloud depends on well-established software in the Kubernetes ecosystem.
 We won't go into full detail explaining how to install each dependency but will provide links to their official documentation.
 
 Please note that our [Try Theia Cloud]({{< relref "tryTheiaCloud" >}}) guides use Terraform charts that will install all requirements automatically.
-Please have a look at their [Helm configuration](https://github.com/eclipse-theia/theia-cloud/blob/main/terraform/modules/helm/main.tf) to find the values used in the getting started guides.
+Have a look at the [`cluster-prerequisites` module](https://github.com/eclipse-theia/theia-cloud/blob/main/terraform/modules/cluster-prerequisites/main.tf) (cert-manager, ingress controller, Keycloak) and the [`theia-cloud` module](https://github.com/eclipse-theia/theia-cloud/blob/main/terraform/modules/theia-cloud/main.tf) (Theia Cloud Helm charts) to find the values used in the getting started guides.
 
 ### cert-manager.io
 
@@ -75,7 +75,7 @@ _Please note that it is possible to integrate other ingress controllers with The
 
 If your use case requires user management, we recommend the use of [Keycloak](https://www.keycloak.org/). Keycloak acts as an OAuth2 provider, and it is possible to integrate other existing providers into Keycloak.
 
-We suggest using the [Bitnami Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/keycloak) for the Keycloak installation.
+We suggest installing Keycloak via the official [Keycloak Operator](https://www.keycloak.org/operator/installation). Our [`cluster-prerequisites` Terraform module](https://github.com/eclipse-theia/theia-cloud/blob/main/terraform/modules/cluster-prerequisites/main.tf) provides a reference setup that deploys the operator together with a PostgreSQL backend and a TLS-enabled ingress.
 
 _Please note that it is possible to integrate any OAuth2 provider with Theia Cloud, and this is part of our roadmap. We do not offer documentation and finalized APIs for this yet, however. If you need this feature sooner, please see our [available support options]({{< relref "/support" >}})._
 
@@ -239,7 +239,17 @@ Similar to the installation, Helm is used for this.
 
 Before moving to a new Theia Cloud version, you might want to have a look at the [Theia Cloud Helm changelog](https://github.com/eclipse-theia/theia-cloud-helm/blob/main/CHANGELOG.md). If you customized core components (e.g. the operator), you also might want to look at [Theia Cloud's code changelog](https://github.com/eclipse-theia/theia-cloud/blob/main/CHANGELOG.md).
 
+**Upgrading to 1.3.0:**
+
+- The Terraform `helm` module has been removed. Its responsibilities are now split between two modules:
+  - [`cluster-prerequisites`](https://github.com/eclipse-theia/theia-cloud/tree/main/terraform/modules/cluster-prerequisites) installs cert-manager, the ingress controller, and Keycloak (via the official Keycloak Operator, replacing the previously used Bitnami Helm chart) including its PostgreSQL backend.
+  - [`theia-cloud`](https://github.com/eclipse-theia/theia-cloud/tree/main/terraform/modules/theia-cloud) installs the `theia-cloud-base`, `theia-cloud-crds`, and `theia-cloud` Helm charts. The chart version is pinned via the `theia_cloud_version` variable (by default pointing to the latest release).
+- If you were consuming the `helm` module directly, switch to the two new modules. Note that several variable names have changed (e.g. `postgresql_storageClass` → `postgres_storage_class`, `postgresql_enabled` → `postgres_enabled`, `cloudProvider` → `cloud_provider`, `cert_manager_cluster_issuer` → `ingress_cert_manager_cluster_issuer`). See the [`cluster-prerequisites` README](https://github.com/eclipse-theia/theia-cloud/blob/main/terraform/modules/cluster-prerequisites/README.md) for the full variable mapping and a migration guide from the Bitnami chart.
+- Because Keycloak now runs via the Keycloak Operator instead of the Bitnami chart, existing Keycloak deployments are not migrated automatically. Export your realms and users from the old instance and import them into the new one. The default Keycloak version installed by `cluster-prerequisites` is `26.4.5`.
+- The default landing page was updated to be compatible with Keycloak 26. It might not work with older versions.
+
 **Upgrading to 1.2.0:**
+
 - The default ingress controller changed from nginx to HAProxy. Existing deployments using nginx must explicitly set `ingress.controller: "nginx"` in their `theia-cloud` Helm values and `issuerprod.ingressClass: "nginx"` in their `theia-cloud-base` Helm values.
 - `app.id` is deprecated in favor of `service.authToken`. Custom landing pages or tooling referencing `appId` should be updated to use `serviceAuthToken`.
 - The nginx ingress path regex pattern changed from `($|(/.*))` to `(/|$)(.*)` and the `rewrite-target` annotation now uses `$1$2` instead of `$1`. This maintains the same functionality but users with custom nginx configurations relying on the capture group numbering may need to adjust.
