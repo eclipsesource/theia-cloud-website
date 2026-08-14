@@ -20,4 +20,4 @@ Our Minikube configuration is extensively tested on Linux (Ubuntu) and is expect
 It should also be possible to run it on Windows and macOS; however, we cannot support the setup on these systems.
 Our Minikube Guide can be found [here]({{< relref "../../try/minikube/" >}}).
 
-If you need to try Theia Cloud on a different cluster than GKE or Minikube, please have a look at the [Installation Guide]({{< relref "setuptheiacloud" >}}).
+If you need to try Theia Cloud on a different cluster than GKE or Minikube, please have a look at the [Installation Guide]({{< relref "setuptheiacloud" >}}). OpenShift users should also review the [experimental OpenShift guide]({{< relref "openshift" >}}).
